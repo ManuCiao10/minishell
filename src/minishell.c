@@ -37,31 +37,39 @@ char	*ft_strtok(char *buffer, char sep)
 	return (ret);
 }
 
-void	parsing(t_data *data)
+void	ft_make_cmd_table(t_data *data)
 {
-	int	i;
-
+	int i;
+//	
 	i = 0;
-	data->cmd_count = ft_token_count(data, '|');
+	data->cmd_count = ft_token_count(data->buffer, '|');
+	printf("%d\n", data->cmd_count);
 	data->cmd = ft_calloc(sizeof(char *), data->cmd_count);
 	data->cmd[0].buffer = ft_strtok(data->buffer, '|');
-	while (data->cmd[i].buffer)
+	while (++i <= data->cmd_count)
 	{
-		i++;
 		data->cmd[i].buffer = ft_strtok(NULL, '|');
 	}
 }
 
-int	ft_token_count(t_data *data, char sep)
+void 	parsing(t_data *data)
 {
-	char	*tmp;
-	char	*token;
-	int		i;
-
+	int i = -1;
+	
+	ft_make_cmd_table(data);
+	while(data->cmd[++i].buffer)
+		printf("%s\n", data->cmd[i].buffer);
+}
+int	ft_token_count(char *buffer, char sep)
+{
+	char *tmp;
+	char *token;
+	int i;
+	
 	i = 0;
-	tmp = ft_strdup(data->buffer);
+	tmp = ft_strdup(buffer);
 	token = ft_strtok(tmp, sep);
-	while (token)
+	while(token)
 	{
 		i++;
 		token = ft_strtok(NULL, sep);
@@ -77,11 +85,10 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	while (ac < 2)
 	{
-		data.prompt = readline("\033[0;36m\033[1mminishell ▸ \033[0m");
+		data.buffer = readline("\033[0;36m\033[1mminishell ▸ \033[0m");
 		parsing(&data);
-		//dollar_sign(&mini);
-		print_token(&data);
 		// get_path(mini);
+		free (data.buffer);
 	}
 	printf("Usage: ./minishell\n");
 	return (0);

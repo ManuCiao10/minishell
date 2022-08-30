@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/08/30 12:28:00 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:13:05 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ typedef struct s_data
 	char *prompt;  //prompt message for readline
 	int cmd_count; //count of commands
 	t_cmd *cmd;    //array of cmdmi
-  
 
 }		t_data;
 
 /* ****** FUNCTIONS ****** */
-void	print_token(t_data *mini);
+void	print_token(t_data *data);
 char	*ft_strtok(char *buffer, char sep);
-int	  ft_token_count(t_data *data, char sep);
-void	parsing(t_data *mini);
+int		ft_token_count(char *buffer, char sep);
+void 	parsing(t_data *data);
 
 #endif

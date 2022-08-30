@@ -6,19 +6,20 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:50:03 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/08/30 12:32:57 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/08/30 13:11:06 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 size_t	ft_strlen(const char *str)
-{
-	unsigned long	i;
-	if(!str)
+	{
+	size_t	i;
+
+	if (!str)
 		return (0);
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }
