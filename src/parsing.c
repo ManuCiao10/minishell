@@ -9,3 +9,13 @@ void	print_token(t_data *data)
         i++;
     }
 }
+
+int	ft_array_size(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i + 2);
+}
