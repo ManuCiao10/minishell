@@ -117,7 +117,14 @@ void init_env(t_data *data, char **env)
 	data->env = ft_calloc(sizeof(char *), ft_array_size(env));
 	if(!data->env)
 		exit_err("Error: malloc failed");
-	printf("%d\n", ft_array_size(env));
+	while (env[i])
+	{
+		data->env[i] = ft_strdup(env[i]);
+		if(!data->env[i])
+			exit_err("Error: malloc failed");
+		i++;
+	}
+	
 }
 
 int	main(int ac, char **av, char **env)
@@ -136,6 +143,6 @@ int	main(int ac, char **av, char **env)
 		free(data.cmd);
 
 	}
-	printf("Usage: ./minishell\n");
+	exit_err("Usage: ./minishell\n");
 	return (0);
 }
