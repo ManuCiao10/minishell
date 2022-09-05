@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 17:10:04 by eardingh          #+#    #+#             */
-/*   Updated: 2022/08/30 13:16:26 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/09/05 14:09:16 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
+# define RED 1
+# define GREEN 2
+# define YELLOW 3
+# define BLUE 4
+# define PURPLE 5
+# define CYAN 6
+# define WHITE 7
 /*  ***** ADDED FUNCTIONS *****  */
 void				ft_char_to_base(unsigned char octet, size_t base);
 int					ft_intlen(int *arr);
