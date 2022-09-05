@@ -54,6 +54,64 @@ char	*ft_trim_token(char *buffer, char sep)
 	return (buffer);
 }
 
+char	*ft_get_variable(t_data *data, char *buffer)
+{
+	int		i;
+	i = -1;
+	while (data->env[++i])
+	{
+		if (ft_strncmp(data->env[i], buffer, ft_strlen(buffer)) == 0)
+		{
+			if (data->env[i][ft_strlen(buffer)] == '=')
+				return (data->env[i] + (ft_strlen(buffer) + 1));
+		}
+	}
+	buffer[0] = '\0';
+	return (buffer);
+}
+
+char	*ft_expand_variable(t_data *data, char *token)
+{
+	(void)data;
+	char *ret;
+	while(*token)
+	{
+		if (*token == '$')
+		{
+			token++;
+			ret = ft_get_variable(data, token);
+			printf("ret = %s\n", ret);
+		}
+		token++;
+	}
+	return (ret);
+}
+
+void	ft_clean_token(t_data *data, char **token)
+{
+	int t;
+
+	t = 0;
+	while (token[t])
+	{
+		if (token[t][0] == '\'' && token[t][ft_strlen(token[t]) - 1] == '\'')
+			ft_remove_char(token[t], '\'');
+		else if (token[t][0] == '\"' && token[t][ft_strlen(token[t]) - 1] == '\"')
+		{
+			ft_remove_char(token[t], '\"');
+			if (ft_strchr(token[t], '$'))
+				token[t] = ft_expand_variable(data, token[t]);
+		}
+		else
+		{
+			token[t] = ft_trim_token(token[t], ' ');
+			if (ft_strchr(token[t], '$'))
+				token[t] = ft_expand_variable(data, token[t]);
+		}
+		t++;
+	}
+}
+
 void	make_token(t_data *data)
 {
 	int c;
@@ -74,8 +132,8 @@ void	make_token(t_data *data)
 		}
 	}
 	c = -1;
-	// while (++c < data->cmd_count)
-	// 	ft_clean_token(data, data->cmd[c].token);
+	while (++c < data->cmd_count)
+		ft_clean_token(data, data->cmd[c].token);
 }
 
 void	parsing(t_data *data)
@@ -142,11 +200,37 @@ void	free_table(t_data *data)
 	free(data->buffer);
 }
 
+void	ft_echo(char **arg)
+{
+	int i;
+	int flag;
+
+	flag = 0;
+	i = 1;
+	if (arg[1] && ft_strncmp(arg[1], "-n\0", 3) == 0)
+	{
+		flag = 1;
+		i++;
+	}
+	while (arg[i])
+	{
+		if (ft_is_only(arg[i], ' '))
+			i++;
+		else
+		{
+		printf("%s", arg[i++]);
+		if (arg[i])
+			printf(" ");
+		}
+	}
+	if (flag == 0)
+		printf("\n");
+}
+
 void execute_bultin(t_data *data, int i)
 {
 	if (ft_strncmp(data->cmd[i].token[0], "echo", 4) == 0)
-		printf("echo %s", data->cmd[i].token[0]);
-		// ft_echo(data->cmd[i].token[0]);
+		ft_echo(data->cmd[i].token);
 }
 
 void	make_child_process(t_data *data, int nb)

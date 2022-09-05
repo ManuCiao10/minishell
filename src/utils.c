@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:26:09 by eardingh          #+#    #+#             */
-/*   Updated: 2022/09/05 14:04:06 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:39:23 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,27 @@ void	ft_color(int color)
 		printf("\033[1;37m");
 	else if (color == 8)
 		printf("\033[0m");
+}
+
+void	ft_remove_char(char *token, char sep)
+{
+	int i;
+	int j;
+	
+	i = 0;
+	j = 0;
+	while (token[i])
+	{
+		if (token[i] == sep)
+		{
+			j = i;
+			while (token[j])
+			{
+				token[j] = token[j + 1];
+				j++;
+			}
+		}
+		else
+			i++;
+	}
 }

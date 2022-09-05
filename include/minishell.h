@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/09/05 14:17:47 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:39:19 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			ft_array_size(char **array);
 void		exit_err(t_data *data, char *str, int s);
 void		print_env(t_data *data);
 int			ft_is_only(char *str, char c);
-void	ft_color(int color);
+void		ft_color(int color);
+void		ft_remove_char(char *token, char sep);
 
 #endif
