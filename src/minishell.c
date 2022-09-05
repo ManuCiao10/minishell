@@ -74,12 +74,16 @@ char	*ft_expand_variable(t_data *data, char *token)
 {
 	(void)data;
 	char *ret;
+	char *tmp;
 	while(*token)
 	{
 		if (*token == '$')
 		{
 			token++;
-			ret = ft_get_variable(data, token);
+			tmp = ft_get_variable(data, token);
+			ret = ft_strjoin(ret, tmp);
+			token += ft_strlen(tmp);
+			
 			printf("ret = %s\n", ret);
 		}
 		token++;
