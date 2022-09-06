@@ -70,25 +70,52 @@ char	*ft_get_variable(t_data *data, char *buffer)
 	return (buffer);
 }
 
+// char	*strjoin_2(char const *s1, char const *s2)
+// {
+// 	// if(!s2)
+// 	// 	return (ft_strjoin(s2, ""));
+// 	if (!s1)
+// 		s1 = ft_strdup("");
+// 	return (ft_strjoin(s1, s2));
+	
+// }
+
+void	swap_tmp(char **tmp, char **tmp2)
+{
+	char	*tmp3;
+	tmp3 = *tmp;
+	*tmp = *tmp2;
+	*tmp2 = tmp3;
+}
+
 char	*ft_expand_variable(t_data *data, char *token)
 {
 	(void)data;
 	char *ret;
 	char *tmp;
+	char *tmp2;
+	char *final = NULL;
 	while(*token)
 	{
 		if (*token == '$')
 		{
 			token++;
-			tmp = ft_get_variable(data, token);
-			ret = ft_strjoin(ret, tmp);
-			token += ft_strlen(tmp);
-			
-			printf("ret = %s\n", ret);
+			ret = ft_substr(token, 0, strcspn(token, "$"));
+			tmp = ft_get_variable(data, ret);
+			if(!final)
+				final = ft_strjoin("", tmp);
+			else
+			{
+				tmp2 = final;
+				tmp2 = ft_strjoin(tmp2, tmp);
+				free(final);
+				final = tmp2;
+			}
+			free(ret);	
 		}
 		token++;
 	}
-	return (ret);
+	return (final);
 }
 
 void	ft_clean_token(t_data *data, char **token)
