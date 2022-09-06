@@ -81,14 +81,7 @@ char	*ft_get_variable(t_data *data, char *buffer)
 
 // }
 
-void	swap_tmp(char **tmp, char **tmp2)
-{
-	char	*tmp3;
 
-	tmp3 = *tmp;
-	*tmp = *tmp2;
-	*tmp2 = tmp3;
-}
 
 char	*ft_expand_variable(t_data *data, char *token)
 {
