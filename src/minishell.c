@@ -39,8 +39,8 @@ char	*ft_strtok(char *buffer, char sep)
 
 char	*ft_trim_token(char *buffer, char sep)
 {
-	int		i;
-	
+	int	i;
+
 	if (!buffer)
 		return (buffer);
 	i = ft_strlen(buffer) - 1;
@@ -56,7 +56,8 @@ char	*ft_trim_token(char *buffer, char sep)
 
 char	*ft_get_variable(t_data *data, char *buffer)
 {
-	int		i;
+	int	i;
+
 	i = -1;
 	while (data->env[++i])
 	{
@@ -77,12 +78,13 @@ char	*ft_get_variable(t_data *data, char *buffer)
 // 	if (!s1)
 // 		s1 = ft_strdup("");
 // 	return (ft_strjoin(s1, s2));
-	
+
 // }
 
 void	swap_tmp(char **tmp, char **tmp2)
 {
 	char	*tmp3;
+
 	tmp3 = *tmp;
 	*tmp = *tmp2;
 	*tmp2 = tmp3;
@@ -90,19 +92,22 @@ void	swap_tmp(char **tmp, char **tmp2)
 
 char	*ft_expand_variable(t_data *data, char *token)
 {
+	char	*ret;
+	char	*tmp;
+	char	*tmp2;
+	char	*final;
+
 	(void)data;
-	char *ret;
-	char *tmp;
-	char *tmp2;
-	char *final = NULL;
-	while(*token)
+	final = NULL;
+	while (*token)
 	{
 		if (*token == '$')
 		{
 			token++;
-			ret = ft_substr(token, 0, strcspn(token, "$"));
+			ret = ft_substr(token, 0, strcspn(token, " $"));
+			printf("ret = [%s]\n", ret);
 			tmp = ft_get_variable(data, ret);
-			if(!final)
+			if (!final)
 				final = ft_strjoin("", tmp);
 			else
 			{
@@ -111,7 +116,20 @@ char	*ft_expand_variable(t_data *data, char *token)
 				free(final);
 				final = tmp2;
 			}
-			free(ret);	
+			free(ret);
+		}
+		else if (*token == 32)
+		{
+			printf("*token = [%c]\n", *token);
+			if (!final)
+				final = ft_strjoin("", " ");
+			else
+			{
+				tmp2 = final;
+				tmp2 = ft_strjoin(tmp2, " ");
+				free(final);
+				final = tmp2;
+			}
 		}
 		token++;
 	}
@@ -120,15 +138,15 @@ char	*ft_expand_variable(t_data *data, char *token)
 
 void	ft_clean_token(t_data *data, char **token)
 {
-	int t;
+	int	t;
 
 	t = 0;
 	while (token[t])
 	{
-		
 		if (token[t][0] == '\'' && token[t][ft_strlen(token[t]) - 1] == '\'')
 			ft_remove_char(token[t], '\'');
-		else if (token[t][0] == '\"' && token[t][ft_strlen(token[t]) - 1] == '\"')
+		else if (token[t][0] == '\"' && token[t][ft_strlen(token[t])
+				- 1] == '\"')
 		{
 			ft_remove_char(token[t], '\"');
 			if (ft_strchr(token[t], '$'))
@@ -146,9 +164,9 @@ void	ft_clean_token(t_data *data, char **token)
 
 void	make_token(t_data *data)
 {
-	int c;
-	int t;
-	int count;
+	int	c;
+	int	t;
+	int	count;
 
 	c = -1;
 	while (++c < data->cmd_count)
@@ -223,7 +241,7 @@ void	init_env(t_data *data, char **env)
 
 void	free_table(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < data->cmd_count)
@@ -234,8 +252,8 @@ void	free_table(t_data *data)
 
 void	ft_echo(char **arg)
 {
-	int i;
-	int flag;
+	int	i;
+	int	flag;
 
 	flag = 0;
 	i = 1;
@@ -250,16 +268,16 @@ void	ft_echo(char **arg)
 			i++;
 		else
 		{
-		printf("%s", arg[i++]);
-		if (arg[i])
-			printf(" ");
+			printf("%s", arg[i++]);
+			if (arg[i])
+				printf(" ");
 		}
 	}
 	if (flag == 0)
 		printf("\n");
 }
 
-void execute_bultin(t_data *data, int i)
+void	execute_bultin(t_data *data, int i)
 {
 	if (ft_strncmp(data->cmd[i].token[0], "echo", 4) == 0)
 		ft_echo(data->cmd[i].token);
@@ -278,9 +296,9 @@ void	make_child_process(t_data *data, int nb)
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
+	int		i;
 
 	(void)av;
-	int i;
 	init_env(&data, env);
 	while (ac < 2)
 	{
@@ -292,7 +310,7 @@ int	main(int ac, char **av, char **env)
 		{
 			parsing(&data);
 			print_token(&data);
-			while(++i < data.cmd_count)
+			while (++i < data.cmd_count)
 				make_child_process(&data, i);
 			free_table(&data);
 		}
