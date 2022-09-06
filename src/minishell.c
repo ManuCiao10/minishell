@@ -125,6 +125,7 @@ void	ft_clean_token(t_data *data, char **token)
 	t = 0;
 	while (token[t])
 	{
+		
 		if (token[t][0] == '\'' && token[t][ft_strlen(token[t]) - 1] == '\'')
 			ft_remove_char(token[t], '\'');
 		else if (token[t][0] == '\"' && token[t][ft_strlen(token[t]) - 1] == '\"')
