@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/09/05 16:39:19 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/09/06 09:31:15 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void		exit_err(t_data *data, char *str, int s);
 void		print_env(t_data *data);
 int			ft_is_only(char *str, char c);
 void		ft_color(int color);
-void		ft_remove_char(char *token, char sep);
+char		*ft_remove_char(char *token, char sep);
+char		*ft_strjoin_2(char *s1, char const *s2, int f);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:26:09 by eardingh          #+#    #+#             */
-/*   Updated: 2022/09/05 16:39:23 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/09/06 09:31:36 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_color(int color)
 		printf("\033[0m");
 }
 
-void	ft_remove_char(char *token, char sep)
+char	*ft_remove_char(char *token, char sep)
 {
 	int i;
 	int j;
@@ -68,4 +68,31 @@ void	ft_remove_char(char *token, char sep)
 		else
 			i++;
 	}
+	return (token);
+}
+
+char	*ft_strjoin_2(char *s1, char const *s2, int f)
+{
+	char	*tmp;
+	int		is;
+	int		id;
+
+	is = 0;
+	id = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	tmp = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (tmp == NULL)
+		return (NULL);
+	while (s1 && s1[is])
+	{
+		tmp[is] = s1[is];
+		is++;
+	}
+	while (s2 && s2[id])
+		tmp[is++] = s2[id++];
+	tmp[is] = '\0';
+	if (f == 1)
+		free(s1);
+	return (tmp);
 }

@@ -71,62 +71,48 @@ char	*ft_get_variable(t_data *data, char *buffer)
 	return (buffer);
 }
 
-// char	*strjoin_2(char const *s1, char const *s2)
-// {
-// 	// if(!s2)
-// 	// 	return (ft_strjoin(s2, ""));
-// 	if (!s1)
-// 		s1 = ft_strdup("");
-// 	return (ft_strjoin(s1, s2));
+char	*ft_expand(t_data *data, char *token, int flag)
+{
+	char	*temp[4];
 
-// }
-
-
+	temp[0] = ft_strchr(token, '$');
+	printf("token: %s\n", temp[0]);
+	temp[1] = ft_remove_char(ft_substr(token, 0, temp[0] - token), '\"');
+	printf("temp[1]: %s\n", temp[1]);
+	temp[2] = temp[0] + 1;
+	printf("temp[2]: %s\n", temp[2]);
+	while (++temp[0])
+		if (*temp[0] == '\0' || *temp[0] == ' ' || *temp[0] == '$'
+			|| *temp[0] == '"' || *temp[0] == '\'')
+			break ;
+	temp[2] = ft_substr(temp[2], 0, temp[0] - temp[2]);
+	printf("temp[2]: %s\n", temp[2]);
+	temp[3] = ft_get_variable(data, temp[2]);
+	printf("temp[3]: %s\n", temp[3]);
+	free(temp[2]);
+	temp[2] = ft_strjoin_2(temp[1], temp[3], 1);
+	printf("temp[2]: %s\n", temp[2]);
+	temp[1] = ft_remove_char(ft_substr(temp[0], 0, ft_strlen(temp[0])), '\"');
+	printf("temp[1]: %s\n", temp[1]);
+	temp[0] = ft_strjoin_2(temp[2], temp[1], 1);
+	printf("temp[0]: %s\n", temp[0]);
+	free(temp[1]);
+	if (flag == 1)
+		free(token);
+	if (ft_strchr(temp[0], '$'))
+		temp[0] = ft_expand(data, temp[0], 1);
+	return (temp[0]);
+}
 
 char	*ft_expand_variable(t_data *data, char *token)
 {
-	char	*ret;
-	char	*tmp;
-	char	*tmp2;
-	char	*final;
-
-	(void)data;
-	final = NULL;
-	while (*token)
+	if (token[0] == '$' && ft_strchr(&token[1], '$') == NULL)
+		token = ft_get_variable(data, &token[1]);
+	else
 	{
-		if (*token == '$')
-		{
-			token++;
-			ret = ft_substr(token, 0, strcspn(token, " $"));
-			printf("ret = [%s]\n", ret);
-			tmp = ft_get_variable(data, ret);
-			if (!final)
-				final = ft_strjoin("", tmp);
-			else
-			{
-				tmp2 = final;
-				tmp2 = ft_strjoin(tmp2, tmp);
-				free(final);
-				final = tmp2;
-			}
-			free(ret);
-		}
-		else if (*token == 32)
-		{
-			printf("*token = [%c]\n", *token);
-			if (!final)
-				final = ft_strjoin("", " ");
-			else
-			{
-				tmp2 = final;
-				tmp2 = ft_strjoin(tmp2, " ");
-				free(final);
-				final = tmp2;
-			}
-		}
-		token++;
+		token = ft_expand(data, token + 1, 0);
 	}
-	return (final);
+	return (token);
 }
 
 void	ft_clean_token(t_data *data, char **token)
@@ -141,9 +127,10 @@ void	ft_clean_token(t_data *data, char **token)
 		else if (token[t][0] == '\"' && token[t][ft_strlen(token[t])
 				- 1] == '\"')
 		{
-			ft_remove_char(token[t], '\"');
 			if (ft_strchr(token[t], '$'))
 				token[t] = ft_expand_variable(data, token[t]);
+			else
+				ft_remove_char(token[t], '\"');
 		}
 		else
 		{
