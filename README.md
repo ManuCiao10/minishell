@@ -67,6 +67,7 @@ If you have any doubt about a requirement, take __bash__ as a reference.
 ```
 
 ## Bonus Part 
+
 Your program has to implement:
 * && and || with parenthesis for priorities.
 * Wildcards * should work for the current working directory.
