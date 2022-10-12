@@ -11,7 +11,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 RM = rm -f
 RLFLAGS = -lreadline -lncurses
 
-SRCS_FILES = minishell.c parsing.c utils.c
+SRCS_FILES = minishell.c 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_FILES))
 OBJS = $(SRCS:.c=.o)
 
