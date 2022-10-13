@@ -9,28 +9,28 @@ t_data *get_data()
 	return (data);
 }
 
-int array_len(char **array)
-{
-	int i;
+// int array_len(char **array)
+// {
+// 	int i;
 
-	i = 0;
-	while(array[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while(array[i])
+// 		i++;
+// 	return (i);
+// }
 
-char	**init_env(char **env)
-{
-	int	i;
-	char	**new_env;
-	i = -1;
-	if (env == NULL)
-		return (NULL);
-	new_env = (char **)ft_calloc(array_len(env) + 1, sizeof(char *));
-	while (env[++i])
-		new_env[i] = ft_strdup(env[i]);
-	return (new_env);
-}
+// char	**init_env(char **env)
+// {
+// 	int	i;
+// 	char	**new_env;
+// 	i = -1;
+// 	if (env == NULL)
+// 		return (NULL);
+// 	new_env = (char **)ft_calloc(array_len(env) + 1, sizeof(char *));
+// 	while (env[++i])
+// 		new_env[i] = ft_strdup(env[i]);
+// 	return (new_env);
+// }
 
 void init_data(char *envp[])
 {
@@ -38,12 +38,9 @@ void init_data(char *envp[])
 
 	data = get_data();
 	data->line = NULL;
-	data->env = init_env(envp);
+	data->env = envp;
 	// data->cmd = malloc
 }
-
-
-
 
 // add double and single quotes
 // void no_build_in(t_data *data)
@@ -109,15 +106,57 @@ int invalid_quotes(t_data *data)
 										
 }
 
-
+char *dollar_sign(t_data *data)
+{
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	int len = ft_strlen(data->line);
+	char *new_line = malloc(sizeof(char) * len);
+	while (data->line[i])
+	{
+		if (data->line[i] == DOLLAR)
+		{
+			i++;
+			while (data->line[i] != SPACE && data->line[i] != PIPE &&  data->line[i] != SQUOTE && data->line[i] != '\0')
+			{
+				new_line[j] = data->line[i];
+				i++;
+				j++;
+			}
+			new_line[j] = '=';
+			j++;
+			while (data->env[k])
+			{
+				if (ft_strncmp(new_line, data->env[k], j) == 0)
+				{
+					new_line = ft_strjoin(new_line, data->env[k] + j);
+					j = ft_strlen(new_line);
+					break;
+				}
+				k++;
+			}
+			k = 0;
+		}
+		new_line[j] = data->line[i];
+		i++;
+		j++;
+	}
+	new_line[j] = '\0';
+	return (new_line);
+}
 
 
 void parsing_bitch(t_data *data)
 {
-	//$dollar sign
-
-	if(invalid_quotes(data))
+	char *dollar; 
+ 
+	if(!invalid_quotes(data))
 		return;
+	dollar = dollar_sign(data);
+	printf("%s", dollar);
+	
+	
 	
 }
 
@@ -130,8 +169,9 @@ void promt_bitch(char *envp[])
 	while(1)
 	{
 		data->line = readline("\033[0;36m\033[1m$minishell ▸ \033[0m");
-		parsing_bitch(data);
 		add_history(data->line);
+		parsing_bitch(data);
+		
 	}
 
 }
@@ -146,10 +186,8 @@ int	main(int argc, char *argv[], char *envp[])
 
 
 
-
-/* 
-- parsing/tokenize
+/*
+- add dollar sign
 - unset and export functions
-- add_history (to Print the history use: cat ~/.bash_history)
 - signal 
 */

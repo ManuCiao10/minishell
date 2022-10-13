@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/12 16:48:59 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/13 14:37:33 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #define DBQUOTE 34
 #define SQUOTE 39
 #define PIPE 124
+#define SPACE 32
+#define DOLLAR 36
 
 /* ****** TOKENS ****** */
 
