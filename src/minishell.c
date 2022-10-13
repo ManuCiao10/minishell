@@ -32,49 +32,50 @@ t_data *get_data()
 // 	return (new_env);
 // }
 
+// char **init_env(char **envp)
+// {
+// 	int i = -1;
+// 	char **env = NULL;
+// 	while(envp[++i])
+// 	{
+// 		env = ft_split(envp[i], '=');
+// 		printf("%s", env[0]);
+// 	}
+// 	return (env);
+// }
+
 void init_data(char *envp[])
 {
 	t_data	*data;
 
 	data = get_data();
 	data->line = NULL;
-	data->env = envp;
+	data->env_name = envp;
 	// data->cmd = malloc
 }
 
-// add double and single quotes
-// void no_build_in(t_data *data)
+int pari(int n)
+{
+	if(n % 2 == 0)
+		return (1);
+	return (0);
+}
+
+int dispari(int n)
+{
+	if(n % 2 != 0)
+		return (1);
+	return (0);
+}
+
+// int err_(int n)
 // {
-// 	//add pipe in quotes
-// 	int i = 0;
-// 	int dflag = 0;
-// 	char **cmd = malloc(sizeof(char *) * 3);
-// 	int init = 0;
-// 	int pos = 0;
-// 	int sflag = 0;
-// 	int last = ft_strlen(data->line);
-// 	while (data->line[i])
+// 	if(n == 1)
 // 	{
-// 		if(data->line[i] == DBQUOTE)
-// 			dflag++;
-// 		if(data->line[i] == SQUOTE)
-// 			sflag++;
-// 		if(is_even(dflag) && data->line[i] == PIPE)
-// 		{
-// 			//''word'' or ""word"" 
-// 			cmd[pos] = ft_substr(data->line, init, i - init);
-// 			printf("cmd = %s\n", cmd[pos]);
-// 			pos += 1;
-// 			init = i + 1;
-// 		}
-// 		i++;
-// 		if (i == last)
-// 		{
-// 			cmd[pos] = ft_substr(data->line, init, i - init);
-// 			printf("cmd_last = %s\n", cmd[pos]);
-// 		}
-// 		// printf("i = %d\n", i);
+// 		printf("\t%d\n", n);
+// 		printf("Quotes must be closed\n");
 // 	}
+// 	break;
 // }
 
 int invalid_quotes(t_data *data)
@@ -90,75 +91,42 @@ int invalid_quotes(t_data *data)
 		if(data->line[i] == SQUOTE)
 			sflag++;
 	}
-	if ((dflag % 2) != 0 && dflag)
+	if(dispari(dflag))
 	{
-		printf("\t%d\n", dflag);
-		printf("Quotes must be closed\n");
-		return (0);
+		if(pari(sflag) && sflag)
+			printf("dougle quotes GOOD\n");
+		else
+			return dflag;
 	}
-	else if ((sflag % 2) != 0 && sflag)
+	if(dispari(sflag))
 	{
-		printf("\t%d\n", sflag);
-		printf("Quotes must be closed\n");
-		return (0);
+		if(pari(dflag) && dflag)
+			printf("single quotes GOOD\n");
+		else
+			return sflag;
 	}
-	return (1);
-										
+	return 0;
 }
 
-char *dollar_sign(t_data *data)
-{
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	int len = ft_strlen(data->line);
-	char *new_line = malloc(sizeof(char) * len);
-	while (data->line[i])
-	{
-		if (data->line[i] == DOLLAR)
-		{
-			i++;
-			while (data->line[i] != SPACE && data->line[i] != PIPE &&  data->line[i] != SQUOTE && data->line[i] != '\0')
-			{
-				new_line[j] = data->line[i];
-				i++;
-				j++;
-			}
-			new_line[j] = '=';
-			j++;
-			while (data->env[k])
-			{
-				if (ft_strncmp(new_line, data->env[k], j) == 0)
-				{
-					new_line = ft_strjoin(new_line, data->env[k] + j);
-					j = ft_strlen(new_line);
-					break;
-				}
-				k++;
-			}
-			k = 0;
-		}
-		new_line[j] = data->line[i];
-		i++;
-		j++;
-	}
-	new_line[j] = '\0';
-	return (new_line);
-}
 
 
 void parsing_bitch(t_data *data)
 {
-	char *dollar; 
- 
-	if(!invalid_quotes(data))
-		return;
-	dollar = dollar_sign(data);
-	printf("%s", dollar);
-	
-	
-	
+	// char *dollar; 
+	int n = invalid_quotes(data);
+	if(n != 0)
+	{
+		printf("\t%d\n", n);
+		printf("Quotes must be closed\n");
+		return ;
+
+	}
+	// dollar = dollar_sign(data);
+	// printf("%s", dollar);
+
 }
+
+
 
 void promt_bitch(char *envp[])
 {
@@ -185,6 +153,7 @@ int	main(int argc, char *argv[], char *envp[])
 }
 
 
+// fix single and double quotes
 
 /*
 - add dollar sign

@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/13 14:37:33 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:19:42 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 typedef struct s_data
 {
 	char *line;
-	char **env;
+	char **env_name;
 
 } t_data;
 
