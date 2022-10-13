@@ -54,29 +54,20 @@ void init_data(char *envp[])
 	// data->cmd = malloc
 }
 
-int pari(int n)
+int even(int n)
 {
 	if(n % 2 == 0)
 		return (1);
 	return (0);
 }
 
-int dispari(int n)
+int odds(int n)
 {
 	if(n % 2 != 0)
 		return (1);
 	return (0);
 }
 
-// int err_(int n)
-// {
-// 	if(n == 1)
-// 	{
-// 		printf("\t%d\n", n);
-// 		printf("Quotes must be closed\n");
-// 	}
-// 	break;
-// }
 
 int invalid_quotes(t_data *data)
 {
@@ -91,36 +82,36 @@ int invalid_quotes(t_data *data)
 		if(data->line[i] == SQUOTE)
 			sflag++;
 	}
-	if(dispari(dflag))
+	if(odds(dflag))
 	{
-		if(pari(sflag) && sflag)
-			printf("dougle quotes GOOD\n");
-		else
+		if(!(even(sflag) && sflag))
 			return dflag;
 	}
-	if(dispari(sflag))
+	if(odds(sflag))
 	{
-		if(pari(dflag) && dflag)
-			printf("single quotes GOOD\n");
-		else
+		if(!(even(dflag) && dflag))
 			return sflag;
 	}
 	return 0;
 }
 
 
-
-void parsing_bitch(t_data *data)
+void check_quotes(t_data *data)
 {
-	// char *dollar; 
 	int n = invalid_quotes(data);
 	if(n != 0)
 	{
 		printf("\t%d\n", n);
 		printf("Quotes must be closed\n");
 		return ;
-
 	}
+}
+
+void parsing_bitch(t_data *data)
+{
+	// char *dollar; 
+	check_quotes(data);
+
 	// dollar = dollar_sign(data);
 	// printf("%s", dollar);
 
