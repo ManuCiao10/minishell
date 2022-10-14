@@ -9,40 +9,6 @@ t_data *get_data()
 	return (data);
 }
 
-// int array_len(char **array)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(array[i])
-// 		i++;
-// 	return (i);
-// }
-
-// char	**init_env(char **env)
-// {
-// 	int	i;
-// 	char	**new_env;
-// 	i = -1;
-// 	if (env == NULL)
-// 		return (NULL);
-// 	new_env = (char **)ft_calloc(array_len(env) + 1, sizeof(char *));
-// 	while (env[++i])
-// 		new_env[i] = ft_strdup(env[i]);
-// 	return (new_env);
-// }
-
-// char **init_env(char **envp)
-// {
-// 	int i = -1;
-// 	char **env = NULL;
-// 	while(envp[++i])
-// 	{
-// 		env = ft_split(envp[i], '=');
-// 		printf("%s", env[0]);
-// 	}
-// 	return (env);
-// }
 
 void init_data(char *envp[])
 {
@@ -233,22 +199,48 @@ int sing_quote(char *prompt)
 	}
 	return 0;
 }
+void builtin(char *prompt)
+{
+	if(strncmp(prompt, "exit", 4) == 0)
+		exit(0);
+	if(strncmp(prompt, "cd", 2) == 0)
+	{
+		char *p = prompt;
+		p += 3;
+		if(chdir(p) == -1)
+			printf("cd: no such file or directory: %s\n", p);
+	}
+	if(strncmp(prompt, "pwd", 3) == 0)
+	{
+		char *p = getcwd(NULL, 0);
+		printf("%s\n", p);
+		free(p);
+	}
+	if(strncmp(prompt, "echo", 4) == 0)
+	{
+		char *p = prompt;
+		p += 5;
+		printf("%s\n", p);
+	}
+	
+	
+}
 
 void parsing_bitch(t_data *data)
 {
-	//check bulit-in
-	if(double_open(data->line) == 1)
+	builtin(data->line);
+	if(double_open(data->line))
 		return;
-	if(single_open(data->line) == 1)
-		return ;
-	if(sing_quote(data->line) == 1)
+	if(single_open(data->line))
+		return;
+	if(sing_quote(data->line))
 		return;
 	cmd_quote_s(data);
 	cmd_quote_d(data);
 }
 
 
-//add return 0 - 1 to handler all the function
+
 
 void promt_bitch(char *envp[])
 {
