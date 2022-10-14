@@ -144,10 +144,11 @@ int	main(int argc, char *argv[], char *envp[])
 }
 
 
-// fix single and double quotes
+
+//if the pipe the only one elemt in the quotes do to NOT take it
+// "ls|cat" --> TAKE IT
 
 /*
-- add dollar sign
 - unset and export functions
 - signal 
 */
