@@ -54,70 +54,201 @@ void init_data(char *envp[])
 	// data->cmd = malloc
 }
 
-int even(int n)
+
+int get_number_quotes(char *line, int quotes)
 {
-	if(n % 2 == 0)
-		return (1);
-	return (0);
+	int i = 0;
+	int c = 0;
+	while(line[i])
+	{
+		if(line[i] == quotes)
+			c++;
+		i++;
+	}
+	return (c);
 }
 
-int odds(int n)
+int single_open(char *prompt)
 {
-	if(n % 2 != 0)
-		return (1);
-	return (0);
-}
-
-
-int invalid_quotes(t_data *data)
-{
-	int dflag = 0;
-	int sflag = 0;
 	int i = -1;
+	while(prompt[++i])
+	{
+		if(prompt[i] == DBQUOTE)
+		{
+			while(prompt[++i])
+			{
+				if(prompt[i] == DBQUOTE)
+				{
+					while(prompt[++i])
+					{
+						if(prompt[i] == SQUOTE)
+						{
+							if(prompt[i + 1 ] == '\0')
+							{
+								printf("Single quotes must be closed\n");
+								return 1;
+							}
+							while(prompt[++i])
+							{
+								if(!(prompt[i] == SQUOTE))
+								{
+									printf("Single quotes must be closed\n");
+									return 1;
+								}
+							}
+						}
+					}
+				}
+			}
 
-	while(data->line[++i])
-	{
-		if(data->line[i] == DBQUOTE)
-			dflag++;
-		if(data->line[i] == SQUOTE)
-			sflag++;
-	}
-	if(odds(dflag))
-	{
-		if(!(even(sflag) && sflag))
-			return dflag;
-	}
-	if(odds(sflag))
-	{
-		if(!(even(dflag) && dflag))
-			return sflag;
+		}
+
 	}
 	return 0;
 }
 
-
-void check_quotes(t_data *data)
+int double_open(char *prompt)
 {
-	int n = invalid_quotes(data);
-	if(n != 0)
+	int i = -1;
+	while(prompt[++i])
 	{
-		printf("\t%d\n", n);
-		printf("Quotes must be closed\n");
-		return ;
+		if(prompt[i] == SQUOTE)
+		{
+			while(prompt[++i])
+			{
+				if(prompt[i] == SQUOTE)
+				{
+					while(prompt[++i])
+					{
+						if(prompt[i] == DBQUOTE)
+						{
+							if(prompt[i + 1 ] == '\0')
+							{
+								printf("Double quotes must be closed\n");
+								return 1;
+							}
+							while(prompt[++i])
+							{
+								if(!(prompt[i] == DBQUOTE))
+								{
+									printf("Double quotes must be closed\n");
+									return 1;
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+
 	}
+	return 0;
+}
+
+void cmd_quote_s(t_data *data)
+{
+	//check if the string is in quotes
+	int i = -1;
+	char *p = data->line;
+	p++;
+	p[ft_strlen(p)-1] = 0;
+
+	while(data->line[++i])
+	{
+		if(data->line[i] == DBQUOTE)
+		{
+			while(data->line[i])
+			{
+				
+				if(data->line[i] == DBQUOTE)
+				{
+					// if(data->line[i + 1] == DBQUOTE)
+					// {
+					// 	check_dioporco(data->line, i, DBQUOTE);
+					// 	return ;
+					// }
+					
+					printf("%s: command non found\n", p);
+					return ;
+				}
+			}
+		}
+	}
+}
+
+// void check_dioporco(char *line, int pos, int quotes)
+// {
+// 	int i = pos + 1;
+// 	while(line[i])
+// 	{
+
+		
+// 	}
+// }
+
+void cmd_quote_d(t_data *data)
+{
+	//check if the string is in quotes
+	int i = -1;
+
+	while(data->line[++i])
+	{
+		if(data->line[i] == SQUOTE)
+		{
+			while(data->line[i])
+			{
+				if(data->line[i] == SQUOTE)
+				{
+					// if(data->line[i + 1] == SQUOTE)
+					// {
+					// 	check_dioporco(data->line, i, SQUOTE);
+					// 	return ;
+					// }
+					char *p = data->line;
+					p++;
+					p[ft_strlen(p)-1] = 0;
+					printf("%s: command non found\n", p);
+					return ;
+				}
+			}
+		}
+	}
+	
+}
+
+int sing_quote(char *prompt)
+{
+	int s = get_number_quotes(prompt, SQUOTE);
+	int d = get_number_quotes(prompt, DBQUOTE);
+	if(s % 2 != 0)
+	{
+		printf("Single quotes must be closed\n");
+		return 1;
+	}
+	if(d % 2 != 0)
+	{
+		printf("Double quotes must be closed\n");
+		return 1;
+	}
+	return 0;
 }
 
 void parsing_bitch(t_data *data)
 {
-	// char *dollar; 
-	check_quotes(data);
-
-	// dollar = dollar_sign(data);
-	// printf("%s", dollar);
-
+	//check bulit-in
+	if(double_open(data->line) == 1)
+		return;
+	if(single_open(data->line) == 1)
+		return ;
+	if(sing_quote(data->line) == 1)
+		return;
+	cmd_quote_s(data);
+	cmd_quote_d(data);
 }
 
 
+//add return 0 - 1 to handler all the function
 
 void promt_bitch(char *envp[])
 {
@@ -145,8 +276,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 
 
-//if the pipe the only one elemt in the quotes do to NOT take it
-// "ls|cat" --> TAKE IT
+
 
 /*
 - unset and export functions

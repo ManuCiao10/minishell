@@ -1,0 +1,24 @@
+::QUOTES::
+
+"ls|cat"'           ==> error ✅
+'ls|cat'"           ==> error ✅
+"ls|cat'"'          ==> error ✅
+'ls|cat"'"          ==> error ✅
+
+echo "ls|cat"'      ==> error ✅
+echo 'ls|cat'"      ==> error ✅
+
+echo "ls|cat"       ==> ls|cat
+echo ""ls|cat""     ==> ls
+echo 'ls|cat'       ==> ls|cat
+echo ''ls|cat''     ==> ls
+
+"ls|cat"            ==> error ✅
+'ls|cat'            ==> error ✅
+
+""ls|cat""          ==> works
+''ls|cat''          ==> works
+
+
+::Escape Character::
+
