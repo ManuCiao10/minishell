@@ -2,19 +2,21 @@
 
 "ls|cat"'           ==> error ✅
 'ls|cat'"           ==> error ✅
-"ls|cat'"'          ==> error ✅
-'ls|cat"'"          ==> error ✅
+"ls|cat'"'          ==> error 
+'ls|cat"'"          ==> error
+'TEST"' '           ==> error
+"yubi'" "           ==> error
 
-echo "ls|cat"'      ==> error ✅
-echo 'ls|cat'"      ==> error ✅
+echo "ls|cat"'      ==> error ✅ IDK
+echo 'ls|cat'"      ==> error ✅ IDK
 
 echo "ls|cat"       ==> ls|cat
 echo ""ls|cat""     ==> ls
 echo 'ls|cat'       ==> ls|cat
 echo ''ls|cat''     ==> ls
 
-"ls|cat"            ==> error ✅
-'ls|cat'            ==> error ✅
+"ls|cat"            ==> error ✅ 
+'ls|cat'            ==> error ✅ 
 
 ""ls|cat""          ==> works
 ''ls|cat''          ==> works

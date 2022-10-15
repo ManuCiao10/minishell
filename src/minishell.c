@@ -34,80 +34,100 @@ int get_number_quotes(char *line, int quotes)
 	return (c);
 }
 
-int single_open(char *prompt)
-{
-	int i = -1;
-	while(prompt[++i])
-	{
-		if(prompt[i] == DBQUOTE)
-		{
-			while(prompt[++i])
-			{
-				if(prompt[i] == DBQUOTE)
-				{
-					while(prompt[++i])
-					{
-						if(prompt[i] == SQUOTE)
-						{
-							if(prompt[i + 1 ] == '\0')
-							{
-								printf("Single quotes must be closed\n");
-								return 1;
-							}
-							while(prompt[++i])
-							{
-								if(!(prompt[i] == SQUOTE))
-								{
-									printf("Single quotes must be closed\n");
-									return 1;
-								}
-							}
-						}
-					}
-				}
-			}
+// int single_open(char *prompt)
+// {
+// 	int i = -1;
+// 	while(prompt[++i])
+// 	{
+// 		if(prompt[i] == DBQUOTE)
+// 		{
+// 			while(prompt[++i])
+// 			{
+// 				if(prompt[i] == DBQUOTE)
+// 				{
+// 					while(prompt[++i])
+// 					{
+// 						if(prompt[i] == SQUOTE)
+// 						{
+// 							if(prompt[i + 1 ] == '\0')
+// 							{
+// 								printf("Single quotes must be closed\n");
+// 								return 1;
+// 							}
+// 							while(prompt[++i])
+// 							{
+// 								if(!(prompt[i] == SQUOTE))
+// 								{
+// 									printf("Single quotes must be closed\n");
+// 									return 1;
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
 
-		}
+// 		}
 
-	}
-	return 0;
-}
+// 	}
+// 	return 0;
+// }
+
+// int double_open(char *prompt)
+// {
+// 	int i = -1;
+// 	while(prompt[++i])
+// 	{
+// 		if(prompt[i] == SQUOTE)
+// 		{
+// 			while(prompt[++i])
+// 			{
+// 				if(prompt[i] == SQUOTE)
+// 				{
+// 					while(prompt[++i])
+// 					{
+// 						if(prompt[i] == DBQUOTE)
+// 						{
+// 							if(prompt[i + 1 ] == '\0')
+// 							{
+// 								printf("Double quotes must be closed\n");
+// 								return 1;
+// 							}
+// 							while(prompt[++i])
+// 							{
+// 								if(!(prompt[i] == DBQUOTE))
+// 								{
+// 									printf("Double quotes must be closed\n");
+// 									return 1;
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+
+// 		}
+
+// 	}
+// 	return 0;
+// }
 
 int double_open(char *prompt)
 {
+	int d = 0;
+	int s = 0;
 	int i = -1;
 	while(prompt[++i])
 	{
 		if(prompt[i] == SQUOTE)
-		{
-			while(prompt[++i])
-			{
-				if(prompt[i] == SQUOTE)
-				{
-					while(prompt[++i])
-					{
-						if(prompt[i] == DBQUOTE)
-						{
-							if(prompt[i + 1 ] == '\0')
-							{
-								printf("Double quotes must be closed\n");
-								return 1;
-							}
-							while(prompt[++i])
-							{
-								if(!(prompt[i] == DBQUOTE))
-								{
-									printf("Double quotes must be closed\n");
-									return 1;
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
-
+			s++;
+		if(prompt[i] == DBQUOTE)
+			d++;
+	}
+	if((d % 2 != 0 && d) || (s % 2 != 0 && s))
+	{
+		printf("EIIIIIII MFQuotes must be closed\n");
+		return 1;
 	}
 	return 0;
 }
@@ -142,6 +162,8 @@ void cmd_quote_s(t_data *data)
 		}
 	}
 }
+
+//add index to save the position of the quote
 
 // void check_dioporco(char *line, int pos, int quotes)
 // {
@@ -183,22 +205,61 @@ void cmd_quote_d(t_data *data)
 	
 }
 
-int sing_quote(char *prompt)
+// int sing_quote(char *prompt)
+// {
+// 	int s = get_number_quotes(prompt, SQUOTE);
+// 	int d = get_number_quotes(prompt, DBQUOTE);
+// 	if(s % 2 != 0 && s)
+// 	{
+// 		printf("Single quotes must be closed\n");
+// 		return 1;
+// 	}
+// 	if(d % 2 != 0 && d)
+// 	{
+// 		printf("Double quotes must be closed\n");
+// 		return 1;
+// 	}
+// 	return 0;
+// }
+int ft_even(int n)
 {
-	int s = get_number_quotes(prompt, SQUOTE);
-	int d = get_number_quotes(prompt, DBQUOTE);
-	if(s % 2 != 0)
-	{
-		printf("Single quotes must be closed\n");
-		return 1;
-	}
-	if(d % 2 != 0)
-	{
-		printf("Double quotes must be closed\n");
-		return 1;
-	}
-	return 0;
+	if (n % 2 == 0)
+		return (1);
+	return (0);
 }
+
+int valid_quotes(char *prompt)
+{
+    int dflag;
+    int sflag;
+    int ind[2];
+    int i;
+
+    dflag = 0;
+    sflag = 0;
+    i = -1;
+    while (prompt[++i])
+    {
+        if (prompt[i] == DBQUOTE)
+        {
+            dflag++;
+            ind[0] = i;
+        }
+        else if (prompt[i] == SQUOTE)
+        {
+            sflag++;
+            ind[1] = i;
+        }
+    }
+    if((dflag && ft_even(dflag) && ind[0] < ind[1]) || (!ft_even(dflag) && ind[1] < ind[0] && dflag))
+        printf("Open SQuotes: ind0[%d] -- ind1[%d] \n",ind[0], ind[1]);
+    else if(( sflag && ft_even(sflag) && ind[1] < ind[0]) || (!ft_even(sflag) && ind[0] < ind[1] && sflag))
+        printf("Open DQuotes: ind0[%d] -- ind1[%d] \n",ind[0], ind[1]);
+    return(1);
+}
+
+
+
 void builtin(char *prompt)
 {
 	if(strncmp(prompt, "exit", 4) == 0)
@@ -228,15 +289,17 @@ void builtin(char *prompt)
 
 void parsing_bitch(t_data *data)
 {
-	builtin(data->line);
-	if(double_open(data->line))
-		return;
-	if(single_open(data->line))
-		return;
-	if(sing_quote(data->line))
-		return;
+	// builtin(data->line);
+	// if(double_open(data->line))
+	// 	return;
+	// if(single_open(data->line))
+	// 	return;
 	cmd_quote_s(data);
 	cmd_quote_d(data);
+	if(valid_quotes(data->line))
+		return;
+	
+	
 }
 
 
