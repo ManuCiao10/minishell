@@ -263,7 +263,7 @@ int valid_quotes(char *prompt)
 
 void builtin(char *prompt)
 {
-	if(strncmp(prompt, "exit", 4) == 0)
+	if(strncmp(prompt, "exit ", 5) == 0)
 		exit(0);
 	if(strncmp(prompt, "cd", 2) == 0)
 	{
@@ -290,9 +290,10 @@ void builtin(char *prompt)
 
 void parsing_bitch(t_data *data)
 {
-	// builtin(data->line);
+	builtin(data->line);
 	// if(double_open(data->line))
 	// 	return;
+	
 	// if(single_open(data->line))
 	// 	return;
 	cmd_quote_s(data);
