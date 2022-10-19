@@ -152,9 +152,27 @@ bool builtin(t_shell *data)
 	
 }
 
-void buffer_end(char *str)
+bool is_only(char *line, char c)
 {
+	int i = 0;
+	if(!line)
+		return false;
+	while(line[i])
+	{
+		if(line[i] != c)
+			return false;
+		i++;
+	}
+	return true;
+}
 
+static char *buffer_end(char *str, char **s)
+{
+	*s = NULL;
+	if(is_only(str, ' '))
+		return NULL;
+	return str;
+	
 }
 
 char *strtok_(char *str, char delim)
@@ -186,21 +204,39 @@ char *strtok_(char *str, char delim)
 	return (s);
 }
 
-void parsing_bitch(t_shell *shell)
+
+char *trim_token(char *token, char sep)
 {
+	int i = 0;
+	if(!token)
+		return token;
+	i = ft_strlen(token) - 1;
+	while(token[i] == sep)
+	{
+		token[i] = '\0';
+		i--;
+	}
+	while(*token == sep)
+		token++;
+	return token;
+}
+
+int parsing_bitch(t_shell *shell)
+{
+	int i = 0;
 	// builtin(data);
 	if(valid_quotes(shell->line))
-		return;
-	printf("dioo");
+		return 0;
 	shell->cmd = ft_calloc(sizeof(t_shell), shell->nb_cmd);
 	if(shell->cmd == NULL)
 		ft_exit(shell, 0);
-	
-	shell->cmd[0].buffer = strtok_(shell->line, '|');
-	
+	//save nb_command;
+	shell->cmd[0].buffer = trim_token(strtok_(shell->line, '|'), ' ');
+	while(++i < shell->nb_cmd)
+		shell->cmd[i].buffer = trim_token(strtok_(NULL, '|'), ' ');
 	printf("%s", shell->cmd[0].buffer);
 	
-	
+	return 1;
 	
 }
 
