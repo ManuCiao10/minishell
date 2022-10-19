@@ -11,6 +11,88 @@ t_shell *get_shell()
 	return (shell);
 }
 
+void	ft_color(int color)
+{
+	if (color == 1)
+		printf("\033[1;31m");
+	else if (color == 2)
+		printf("\033[1;32m");
+	else if (color == 3)
+		printf("\033[1;33m");
+	else if (color == 4)
+		printf("\033[1;34m");
+	else if (color == 5)
+		printf("\033[1;35m");
+	else if (color == 6)
+		printf("\033[1;36m");
+	else if (color == 7)
+		printf("\033[1;37m");
+	else if (color == 8)
+		printf("\033[0;0m");
+}
+
+int	ft_pipe_count(t_shell *shell)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 1;
+	while (shell->line[i])
+	{
+		if (shell->line[i] == '|')
+		{
+			if (shell->line[i + 1] == '|')
+			{
+				shell->line[i] = '\0';
+				shell->nb_cmd = count;
+				printf("pipe count return %d\n", count);
+				return (0);
+			}
+			i++;
+			while(shell->line[i] == ' ')
+				i++;
+			if (shell->line[i] == '|')
+			{
+				shell->nb_cmd = 0;
+				printf("syntax error near unexpected token `|'\n");
+				return (1);
+			}
+			count++;
+		}
+		i++;
+	}
+	shell->nb_cmd = count;
+	printf("pipe count return %d\n", count);
+	return (0);
+}
+
+void	ft_print_table(t_shell *shell)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	printf("while i < %d\n", shell->nb_cmd);
+	while (i < shell->nb_cmd)
+	{
+		j = 0;
+		ft_color(1);
+		dprintf(2, "------------ TOKEN -----------------\n");
+		ft_color(6);
+		dprintf(2, "cmd %d = \t", i);
+		while (shell->cmd[i].token[j])
+		{
+			ft_color(3);
+			dprintf(2, "[\033[1;34m%s\033[1;33m]", shell->cmd[i].token[j]);
+			j++;
+		}
+		dprintf(2, "\n");
+		i++;
+	}
+		dprintf(2, "------------------------------------\n");
+	ft_color(8);
+}
 
 void init_data(char *envp[])
 {
@@ -211,7 +293,7 @@ int parsing_bitch(t_shell *shell)
 {
 	int i = 0;
 	// builtin(data);
-	if(valid_quotes(shell->line))
+	if(valid_quotes(shell->line) || ft_pipe_count(shell))
 		return 0;
 	shell->cmd = ft_calloc(sizeof(t_shell), shell->nb_cmd);
 	if(shell->cmd == NULL)
@@ -220,7 +302,7 @@ int parsing_bitch(t_shell *shell)
 	shell->cmd[0].buffer = trim_token(strtok_(shell->line, '|'), ' ');
 	while(++i < shell->nb_cmd)
 		shell->cmd[i].buffer = trim_token(strtok_(NULL, '|'), ' ');
-	printf("%s", shell->cmd[0].buffer);
+	ft_print_table(shell);
 	
 	return 1;
 	
