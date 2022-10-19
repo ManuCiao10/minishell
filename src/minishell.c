@@ -78,40 +78,26 @@ int ft_even(int n)
 	return (0);
 }
 
-int valid_quotes(char *prompt)
+bool valid_quotes(char *buf)
 {
-    int dflag;
-    int sflag;
-    int ind[2];
-    int i;
+	int	i;
+	int	d;
+	int	s;
 
-    dflag = 0;
-    sflag = 0;
-    i = -1;
-    while (prompt[++i])
-    {
-        if (prompt[i] == DBQUOTE)
-        {
-            dflag++;
-            ind[0] = i;
-        }
-        else if (prompt[i] == SQUOTE)
-        {
-            sflag++;
-            ind[1] = i;
-        }
-    }
-    if((dflag && ft_even(dflag) && ind[0] < ind[1]) || (!ft_even(dflag) && ind[1] < ind[0] && dflag))
-	{
-        printf("Open: SQuotes\n");
-		return 1;
+	i = -1;
+	d = 0;
+	s = 0;
+	while (buf[++i]){
+		if (buf[i] == '\"')
+			d++;
+		if (buf[i] == '\'')
+			s++;
 	}
-    else if(( sflag && ft_even(sflag) && ind[1] < ind[0]) || (!ft_even(sflag) && ind[0] < ind[1] && sflag))
-    {
-		printf("Open: DQuotes\n");
-		return 1;
+	if ((d && (d % 2) != 0) || (s && (s % 2)) != 0){
+		printf("Error: Quote not closed\n");
+		return (true);
 	}
-    return(0);
+	return (false);
 }
 
 
