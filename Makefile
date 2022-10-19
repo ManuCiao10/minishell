@@ -7,10 +7,9 @@ READLINE = include/readline/libreadline.a
 
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g  
 RM = rm -f
-RLFLAGS = -lreadline -lncurses
-
+RLFLAGS = -lreadline -lncurses 
 SRCS_FILES = minishell.c 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_FILES))
 OBJS = $(SRCS:.c=.o)

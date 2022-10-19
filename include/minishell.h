@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/13 17:19:42 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/19 08:18:51 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #define DBQUOTE 34
 #define SQUOTE 39
@@ -34,12 +35,21 @@
 
 /* ****** STRUCTS ****** */
 
-typedef struct s_data
+typedef struct s_cmd
+{
+	char *buffer;
+	char **token;
+} t_cmd;
+
+
+typedef struct s_shell
 {
 	char *line;
 	char **env_name;
+	int nb_cmd;
+	t_cmd *cmd;
 
-} t_data;
+} t_shell;
 
 /* ****** FUNCTIONS ****** */
 

@@ -1,22 +1,24 @@
 #include "../include/minishell.h"
 
-t_data *get_data()
-{
-	static t_data *data = NULL;
+int error_status;
 
-	if(data == NULL)
-		data = (t_data *)malloc(sizeof(t_data));
-	return (data);
+t_shell *get_shell()
+{
+	static t_shell *shell = NULL;
+
+	if(shell == NULL)
+		shell = (t_shell *)malloc(sizeof(t_shell));
+	return (shell);
 }
 
 
 void init_data(char *envp[])
 {
-	t_data	*data;
+	t_shell	*shell;
 
-	data = get_data();
-	data->line = NULL;
-	data->env_name = envp;
+	shell = get_shell();
+	shell->line = NULL;
+	shell->env_name = envp;
 	// data->cmd = malloc
 }
 
@@ -34,83 +36,6 @@ int get_number_quotes(char *line, int quotes)
 	return (c);
 }
 
-// int single_open(char *prompt)
-// {
-// 	int i = -1;
-// 	while(prompt[++i])
-// 	{
-// 		if(prompt[i] == DBQUOTE)
-// 		{
-// 			while(prompt[++i])
-// 			{
-// 				if(prompt[i] == DBQUOTE)
-// 				{
-// 					while(prompt[++i])
-// 					{
-// 						if(prompt[i] == SQUOTE)
-// 						{
-// 							if(prompt[i + 1 ] == '\0')
-// 							{
-// 								printf("Single quotes must be closed\n");
-// 								return 1;
-// 							}
-// 							while(prompt[++i])
-// 							{
-// 								if(!(prompt[i] == SQUOTE))
-// 								{
-// 									printf("Single quotes must be closed\n");
-// 									return 1;
-// 								}
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-
-// 		}
-
-// 	}
-// 	return 0;
-// }
-
-// int double_open(char *prompt)
-// {
-// 	int i = -1;
-// 	while(prompt[++i])
-// 	{
-// 		if(prompt[i] == SQUOTE)
-// 		{
-// 			while(prompt[++i])
-// 			{
-// 				if(prompt[i] == SQUOTE)
-// 				{
-// 					while(prompt[++i])
-// 					{
-// 						if(prompt[i] == DBQUOTE)
-// 						{
-// 							if(prompt[i + 1 ] == '\0')
-// 							{
-// 								printf("Double quotes must be closed\n");
-// 								return 1;
-// 							}
-// 							while(prompt[++i])
-// 							{
-// 								if(!(prompt[i] == DBQUOTE))
-// 								{
-// 									printf("Double quotes must be closed\n");
-// 									return 1;
-// 								}
-// 							}
-// 						}
-// 					}
-// 				}
-// 			}
-
-// 		}
-
-// 	}
-// 	return 0;
-// }
 
 int double_open(char *prompt)
 {
@@ -126,103 +51,26 @@ int double_open(char *prompt)
 	}
 	if((d % 2 != 0 && d) || (s % 2 != 0 && s))
 	{
-		printf("EIIIIIII MFQuotes must be closed\n");
+		printf("Quotes must be closed\n");
 		return 1;
 	}
 	return 0;
 }
 
-void cmd_quote_s(t_data *data)
+
+
+
+
+void *free_(void *ptr)
 {
-	//check if the string is in quotes
-	int i = -1;
-	char *p = data->line;
-	p++;
-	p[ft_strlen(p)-1] = 0;
-
-	while(data->line[++i])
-	{
-		if(data->line[i] == DBQUOTE)
-		{
-			while(data->line[i])
-			{
-				
-				if(data->line[i] == DBQUOTE)
-				{
-					// if(data->line[i + 1] == DBQUOTE)
-					// {
-					// 	check_dioporco(data->line, i, DBQUOTE);
-					// 	return ;
-					// }
-					
-
-					
-					printf("%s: command non found\n", p);
-					return ;
-				}
-			}
-		}
-	}
+	if(ptr != NULL)
+		free(ptr);
+	return (NULL);
 }
 
-//add index to save the position of the quote
 
-// void check_dioporco(char *line, int pos, int quotes)
-// {
-// 	int i = pos + 1;
-// 	while(line[i])
-// 	{
 
-		
-// 	}
-// }
 
-void cmd_quote_d(t_data *data)
-{
-	//check if the string is in quotes
-	int i = -1;
-
-	while(data->line[++i])
-	{
-		if(data->line[i] == SQUOTE)
-		{
-			while(data->line[i])
-			{
-				if(data->line[i] == SQUOTE)
-				{
-					// if(data->line[i + 1] == SQUOTE)
-					// {
-					// 	check_dioporco(data->line, i, SQUOTE);
-					// 	return ;
-					// }
-					char *p = data->line;
-					p++;
-					p[ft_strlen(p)-1] = 0;
-					printf("%s: command non found\n", p);
-					return ;
-				}
-			}
-		}
-	}
-	
-}
-
-// int sing_quote(char *prompt)
-// {
-// 	int s = get_number_quotes(prompt, SQUOTE);
-// 	int d = get_number_quotes(prompt, DBQUOTE);
-// 	if(s % 2 != 0 && s)
-// 	{
-// 		printf("Single quotes must be closed\n");
-// 		return 1;
-// 	}
-// 	if(d % 2 != 0 && d)
-// 	{
-// 		printf("Double quotes must be closed\n");
-// 		return 1;
-// 	}
-// 	return 0;
-// }
 int ft_even(int n)
 {
 	if (n % 2 == 0)
@@ -254,72 +102,132 @@ int valid_quotes(char *prompt)
         }
     }
     if((dflag && ft_even(dflag) && ind[0] < ind[1]) || (!ft_even(dflag) && ind[1] < ind[0] && dflag))
-        printf("Open SQuotes: ind0[%d] -- ind1[%d] \n",ind[0], ind[1]);
+	{
+        printf("Open: SQuotes\n");
+		return 1;
+	}
     else if(( sflag && ft_even(sflag) && ind[1] < ind[0]) || (!ft_even(sflag) && ind[0] < ind[1] && sflag))
-        printf("Open DQuotes: ind0[%d] -- ind1[%d] \n",ind[0], ind[1]);
-    return(1);
+    {
+		printf("Open: DQuotes\n");
+		return 1;
+	}
+    return(0);
 }
 
 
-
-
-void builtin(char *prompt)
+void ft_exit(t_shell *data, int status)
 {
-	if(strncmp(prompt, "exit ", 5) == 0)
-		exit(0);
-	if(strncmp(prompt, "cd", 2) == 0)
+	free_(data);
+	exit(status);
+
+}
+
+bool builtin(t_shell *data)
+{
+	if(strncmp(data->line, "exit ", 5) == 0)
+		ft_exit(data, 0);
+	else if(strncmp(data->line, "cd", 2) == 0)
 	{
-		char *p = prompt;
+		char *p = data->line;
 		p += 3;
 		if(chdir(p) == -1)
 			printf("cd: no such file or directory: %s\n", p);
 	}
-	if(strncmp(prompt, "pwd", 3) == 0)
-	{
-		char *p = getcwd(NULL, 0);
-		printf("%s\n", p);
-		free(p);
-	}
-	if(strncmp(prompt, "echo", 4) == 0)
-	{
-		char *p = prompt;
-		p += 5;
-		printf("%s\n", p);
-	}
+	// else if(strncmp(data->line, "pwd", 3) == 0)
+	// {
+	// 	char *p = getcwd(NULL, 0);
+	// 	printf("%s\n", p);
+	// 	free_(p);
+	// }
+	// else if(strncmp(data->line, "echo", 4) == 0)
+	// {
+	// 	char *p = data->line;
+	// 	p += 5;
+	// 	printf("%s\n", p);
+	// }
+	else
+		return false;
+	return true;
 	
 	
 }
 
-void parsing_bitch(t_data *data)
+void buffer_end(char *str)
 {
-	builtin(data->line);
-	// if(double_open(data->line))
-	// 	return;
+
+}
+
+char *strtok_(char *str, char delim)
+{
+	static char *s;
+	char *token;
 	
-	// if(single_open(data->line))
-	// 	return;
-	cmd_quote_s(data);
-	cmd_quote_d(data);
-	if(valid_quotes(data->line))
+	if(!s)
+		s = str;
+	token = s;
+	while(s && *s == ' ')
+		s++;
+	while(s && *s != delim)
+	{
+		if(*s == '\0')
+		    return buffer_end(token, &s);
+		else if(*s == '\'' || *s == '\"')
+		{
+			s = ft_strchr(s + 1, *s);
+			if(!s)
+				return (token);
+			s++;
+		}
+		else
+			s++;
+	}
+	if(s)
+		*s++ = '\0';
+	return (s);
+}
+
+void parsing_bitch(t_shell *shell)
+{
+	// builtin(data);
+	if(valid_quotes(shell->line))
 		return;
+	printf("dioo");
+	shell->cmd = ft_calloc(sizeof(t_shell), shell->nb_cmd);
+	if(shell->cmd == NULL)
+		ft_exit(shell, 0);
+	
+	shell->cmd[0].buffer = strtok_(shell->line, '|');
+	
+	printf("%s", shell->cmd[0].buffer);
+	
 	
 	
 }
 
-
-
+void	ft_signal(int signal)
+{
+	if (signal == SIGINT)
+	{
+		write(2, "\n", 1);
+		rl_on_new_line();
+		// rl_replace_line("", 0);
+		rl_redisplay();
+		error_status = 130;
+	}
+}
 
 void promt_bitch(char *envp[])
 {
-	t_data *data;
+	t_shell *shell;
 
-	data = get_data();
+	shell = get_shell();
 	init_data(envp);
 	while(1)
 	{
-		data->line = readline("\033[0;36m\033[1m$minishell ▸ \033[0m");
-		add_history(data->line);
-		parsing_bitch(data);
+		// signal(SIGINT, ft_signal);
+		shell->line = readline("\033[0;36m\033[1m$minishell ▸ \033[0m");
+		add_history(shell->line);
+		parsing_bitch(shell);
 		
 	}
 
