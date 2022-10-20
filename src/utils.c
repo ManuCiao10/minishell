@@ -19,3 +19,13 @@ void	ft_color(int color)
 	else if (color == 8)
 		printf("\033[0;0m");
 }
+
+int	strrlen(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}

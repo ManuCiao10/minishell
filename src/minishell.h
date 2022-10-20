@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/20 18:25:28 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/20 18:12:47 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,63 +27,53 @@
 
 # define DBQUOTE 34
 # define SQUOTE 39
-# define PIPE 124
-# define SPACE 32
-# define DOLLAR 36
 
-
-/* ****** STRUCTS ****** */
-
-typedef struct s_cmd
-{
-	char			*buffer;
-	char			**token;
-}					t_cmd;
-
+/* ****** TOKENS ****** */
 typedef struct s_env
 {
 	char			*cmd;
 	char			*expand;
+
 	struct s_env	*next;
 
 }					t_env;
 
-typedef struct s_shell
+typedef struct s_built
+{
+	char			*cmd;
+	char			**options;
+
+	struct s_env	*next;
+
+}					t_built;
+
+/* ****** STRUCTS ****** */
+typedef struct s_data
 {
 	char			*prompt;
 	char			**argv;
-	int				nb_cmd;
 	int				done;
 	int				size;
-	t_cmd			*cmd;
-	char			***cmd_store;
+
+	char			***cmd;
 	t_env			*env;
 
 }					t_shell;
 
 /* ****** FUNCTIONS ****** */
 
-/* ****** UTILS ****** */
-void				ft_color(int color);
-
-/* ****************************** FUNCTIONS ****************************** */
-
 /* ****** MINISHELL ****** */
-bool				init_shell(t_shell *shell, char **argv, char **env);
+bool				init_shell(t_shell *data, char **argv, char **env);
 
 /* ****** PARSING ****** */
-bool				valid_quotes(t_shell *shell);
-char				*dollar_sign(t_shell *shell);
+bool				valid_quotes(t_shell *data);
+char				*dollar_sign(t_shell *data);
 
 /* ****** UTILS ****** */
 void				print_env(t_env *env);
-int					strrlen(char **tab);
-
-/* ****** INIT ****** */
-bool				init_shell(t_shell *shell, char **argv, char **envp);
 
 /* ****** ENVIRONEMENT ****** */
 t_env				*ft_newenv(char **content);
-bool				get_env(t_shell *shell, char **envp);
+bool				get_env(t_shell *data, char **envp);
 
 #endif
