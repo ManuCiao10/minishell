@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/19 08:18:51 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/20 08:38:37 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	char *line;
+	char *promt;
 	char **env_name;
 	int nb_cmd;
 	t_cmd *cmd;

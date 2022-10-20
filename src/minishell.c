@@ -31,41 +31,7 @@ void	ft_color(int color)
 		printf("\033[0;0m");
 }
 
-int	ft_pipe_count(t_shell *shell)
-{
-	int	i;
-	int	count;
 
-	i = 0;
-	count = 1;
-	while (shell->line[i])
-	{
-		if (shell->line[i] == '|')
-		{
-			if (shell->line[i + 1] == '|')
-			{
-				shell->line[i] = '\0';
-				shell->nb_cmd = count;
-				printf("pipe count return %d\n", count);
-				return (0);
-			}
-			i++;
-			while(shell->line[i] == ' ')
-				i++;
-			if (shell->line[i] == '|')
-			{
-				shell->nb_cmd = 0;
-				printf("syntax error near unexpected token `|'\n");
-				return (1);
-			}
-			count++;
-		}
-		i++;
-	}
-	shell->nb_cmd = count;
-	printf("pipe count return %d\n", count);
-	return (0);
-}
 
 void	ft_print_table(t_shell *shell)
 {
@@ -99,7 +65,7 @@ void init_data(char *envp[])
 	t_shell	*shell;
 
 	shell = get_shell();
-	shell->line = NULL;
+	shell->promt = NULL;
 	shell->env_name = envp;
 	// data->cmd = malloc
 }
@@ -192,27 +158,15 @@ void ft_exit(t_shell *data, int status)
 
 bool builtin(t_shell *data)
 {
-	if(strncmp(data->line, "exit ", 5) == 0)
+	if(strncmp(data->promt, "exit ", 5) == 0)
 		ft_exit(data, 0);
-	else if(strncmp(data->line, "cd", 2) == 0)
+	else if(strncmp(data->promt, "cd", 2) == 0)
 	{
-		char *p = data->line;
+		char *p = data->promt;
 		p += 3;
 		if(chdir(p) == -1)
 			printf("cd: no such file or directory: %s\n", p);
 	}
-	// else if(strncmp(data->line, "pwd", 3) == 0)
-	// {
-	// 	char *p = getcwd(NULL, 0);
-	// 	printf("%s\n", p);
-	// 	free_(p);
-	// }
-	// else if(strncmp(data->line, "echo", 4) == 0)
-	// {
-	// 	char *p = data->line;
-	// 	p += 5;
-	// 	printf("%s\n", p);
-	// }
 	else
 		return false;
 	return true;
@@ -289,21 +243,37 @@ char *trim_token(char *token, char sep)
 	return token;
 }
 
+
+int	pipe_count(char *str, char sep)
+{
+	char *tmp = strdup(str);
+	int i = 0;
+	char *token;
+	token = trim_token(strtok_(tmp, sep), ' ');
+	while(token)
+	{
+		i++;
+		token = trim_token(strtok_(NULL, sep), ' ');
+	}
+	free_(tmp);
+	return i;
+}
+
 int parsing_bitch(t_shell *shell)
 {
 	int i = 0;
-	// builtin(data);
-	if(valid_quotes(shell->line) || ft_pipe_count(shell))
+
+	if(valid_quotes(shell->promt))
 		return 0;
+	shell->nb_cmd = pipe_count(shell->promt, '|');
 	shell->cmd = ft_calloc(sizeof(t_shell), shell->nb_cmd);
 	if(shell->cmd == NULL)
 		ft_exit(shell, 0);
-	//save nb_command;
-	shell->cmd[0].buffer = trim_token(strtok_(shell->line, '|'), ' ');
+	shell->nb_cmd = 2;
+	shell->cmd[0].buffer = trim_token(strtok_(shell->promt, '|'), ' ');
 	while(++i < shell->nb_cmd)
 		shell->cmd[i].buffer = trim_token(strtok_(NULL, '|'), ' ');
-	ft_print_table(shell);
-	
+	//parese the toke --> assign the value of each command in shell->cmd[i].token[t]
 	return 1;
 	
 }
@@ -329,8 +299,8 @@ void promt_bitch(char *envp[])
 	while(1)
 	{
 		// signal(SIGINT, ft_signal);
-		shell->line = readline("\033[0;36m\033[1m$minishell ▸ \033[0m");
-		add_history(shell->line);
+		shell->promt = readline("\033[0;36m\033[1m$minishell ▸ \033[0m");
+		add_history(shell->promt);
 		parsing_bitch(shell);
 		
 	}
