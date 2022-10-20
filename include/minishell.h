@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/20 08:38:37 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/20 08:41:19 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ typedef struct s_shell
 } t_shell;
 
 /* ****** FUNCTIONS ****** */
+
+/* ****** UTILS ****** */
+void	ft_color(int color);
 
 #endif
