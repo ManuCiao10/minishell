@@ -95,36 +95,14 @@ void	*free_(void *ptr)
 	return (NULL);
 }
 
-int	ft_even(int n)
+int	even_(int n)
 {
 	if (n % 2 == 0)
 		return (1);
 	return (0);
 }
 
-bool	valid_quotes(char *buf)
-{
-	int	i;
-	int	d;
-	int	s;
 
-	i = -1;
-	d = 0;
-	s = 0;
-	while (buf[++i])
-	{
-		if (buf[i] == '\"')
-			d++;
-		if (buf[i] == '\'')
-			s++;
-	}
-	if ((d && (d % 2) != 0) || (s && (s % 2)) != 0)
-	{
-		printf("Error: Quote not closed\n");
-		return (true);
-	}
-	return (false);
-}
 
 void	ft_exit(t_shell *data, int status)
 {

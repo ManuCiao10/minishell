@@ -1,14 +1,28 @@
 #include "../include/minishell.h"
 
+
+bool	get_valid_cmd(t_shell *shell)
+{
+	int	index;
+
+	index = 0;
+	shell->cmd = ft_calloc(3, sizeof(t_cmd *));
+	if (!shell->cmd)
+		return (false);
+	shell->nb_cmd = token_count(shell->buffer);
+	//save the string in quotes
+	//split the string with pipes
+	return (true);
+}
+
+
 bool	parsing(t_shell *shell)
 {
-	char	*dollar;
-
-	if (!valid_quotes(shell))
-		return (false);
-	// get_valid_cmd(shell);
-	dollar = dollar_sign(shell);
-	// printf("%s \n", dollar);
+	// char	*dollar;
+	// if (invalid_quotes(shell->prompt))
+	// 	return (false);
+	get_valid_cmd(shell);
+	// dollar = dollar_sign(shell);
 	return (true);
 }
 
@@ -30,12 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		if (!init_shell(&shell, argv, envp))
 			return (false);
-		// print_env(shell.env);
-		// printf("shell->size %d\n", shell.size);
-		// printf("envp->size %d\n", strrlen(envp));
 		prompting(&shell);
 	}
 	return (0);
 }
-
-// "ls|cat"

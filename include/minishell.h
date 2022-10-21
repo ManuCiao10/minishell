@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/20 18:25:28 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:49:09 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,16 @@
 # define SPACE 32
 # define DOLLAR 36
 
-
 /* ****** STRUCTS ****** */
 
 typedef struct s_cmd
 {
-	char			*buffer;
-	char			**token;
+	char			*option;
+	char			*command;
+	pid_t 			pid;
+	
+	
+	
 }					t_cmd;
 
 typedef struct s_env
@@ -55,11 +58,11 @@ typedef struct s_shell
 	int				nb_cmd;
 	int				done;
 	int				size;
-	t_cmd			*cmd;
-	char			***cmd_store;
+	t_cmd			**cmd;
 	t_env			*env;
 
 }					t_shell;
+
 
 /* ****** FUNCTIONS ****** */
 
@@ -72,12 +75,13 @@ void				ft_color(int color);
 bool				init_shell(t_shell *shell, char **argv, char **env);
 
 /* ****** PARSING ****** */
-bool				valid_quotes(t_shell *shell);
 char				*dollar_sign(t_shell *shell);
+bool				invalid_quotes(char *buf);
 
 /* ****** UTILS ****** */
 void				print_env(t_env *env);
 int					strrlen(char **tab);
+int	even_(int n);
 
 /* ****** INIT ****** */
 bool				init_shell(t_shell *shell, char **argv, char **envp);
