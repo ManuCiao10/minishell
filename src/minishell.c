@@ -30,6 +30,8 @@ char	*strtok_(char *str, char sepa)
 	}
 	// printf("Final_ptr = %s\n", ptr);
 	return (ptr);
+
+	
 }
 
 void	save_shit(char **string)
