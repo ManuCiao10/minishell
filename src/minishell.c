@@ -1,28 +1,70 @@
 #include "../include/minishell.h"
 
+//assign value to the struct -->malloc struct
+
+char	*strtok_(char *str, char sepa)
+{
+	static char	*stock = NULL;
+	char		*ptr;
+	int		i;
+
+	i = 0;
+	ptr = NULL;
+	if (str != NULL)
+		stock = ft_strdup(str);
+	while (*stock != '\0')
+	{
+		if (i == 0 && *stock != sepa)
+		{
+			i = 1;
+			ptr = stock;
+			// printf("ptr = %s\n", ptr);
+		}
+		else if (i == 1 && *stock == sepa)
+		{
+			*stock = '\0';
+			stock += 1;
+			break ;
+		}
+		stock++;
+	}
+	// printf("Final_ptr = %s\n", ptr);
+	return (ptr);
+}
+
+void	save_shit(char **string)
+{
+	int		i;
+	char	*token;
+
+	i = 0;
+	while (string[i])
+	{
+		token = strtok_(string[i], ' ');
+		printf("cmd: %s\n", token);
+		while (token != NULL)
+		{
+			token = strtok_(NULL, ' ');
+			printf("options: %s\n", token);
+			break ;
+		}
+		i++;
+	}
+}
 
 bool	get_valid_cmd(t_shell *shell)
 {
-	int	index;
+	char	**buff;
 
-	index = 0;
-	shell->cmd = ft_calloc(3, sizeof(t_cmd *));
-	if (!shell->cmd)
-		return (false);
-	shell->nb_cmd = token_count(shell->buffer);
-	//save the string in quotes
-	//split the string with pipes
+	buff = ft_split(shell->prompt, '|');
+	save_shit(buff);
+	// print_shit(shell);
 	return (true);
 }
 
-
 bool	parsing(t_shell *shell)
 {
-	// char	*dollar;
-	// if (invalid_quotes(shell->prompt))
-	// 	return (false);
 	get_valid_cmd(shell);
-	// dollar = dollar_sign(shell);
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/21 17:49:09 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/23 18:13:35 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ typedef struct s_cmd
 	char			*option;
 	char			*command;
 	pid_t 			pid;
-	
-	
-	
+
 }					t_cmd;
 
 typedef struct s_env
@@ -58,7 +56,7 @@ typedef struct s_shell
 	int				nb_cmd;
 	int				done;
 	int				size;
-	t_cmd			**cmd;
+	t_cmd			*cmd;
 	t_env			*env;
 
 }					t_shell;
