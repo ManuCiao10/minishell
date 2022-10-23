@@ -33,6 +33,8 @@ char	*strtok_(char *str, char sepa)
 }
 
 
+
+
 void	save_shit(char **string)
 {
 	int		i;
