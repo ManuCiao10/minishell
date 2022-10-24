@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/23 18:13:35 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:42:40 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_cmd
 {
 	char			*option;
 	char			*command;
-	pid_t 			pid;
+	pid_t			pid;
 
 }					t_cmd;
 
@@ -61,7 +61,6 @@ typedef struct s_shell
 
 }					t_shell;
 
-
 /* ****** FUNCTIONS ****** */
 
 /* ****** UTILS ****** */
@@ -79,7 +78,9 @@ bool				invalid_quotes(char *buf);
 /* ****** UTILS ****** */
 void				print_env(t_env *env);
 int					strrlen(char **tab);
-int	even_(int n);
+void				print_struct(t_shell *shell);
+int					count_token(char **prompt);
+int					even_(int n);
 
 /* ****** INIT ****** */
 bool				init_shell(t_shell *shell, char **argv, char **envp);

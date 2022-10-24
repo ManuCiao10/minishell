@@ -2,18 +2,28 @@
 
 int		error_status;
 
-void	print_struct(t_shell *shell)
-{
-	int	i;
+// bool	ft_is_only(char *buffer, char c)
+// {
+// 	int i;
 
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		printf("cmd[%d] = %s\n", i, shell->cmd[i].command);
-		printf("option[%d] = %s\n", i, shell->cmd[i].option);
-		i++;
-	}
-}
+// 	i = 0;
+// 	if (!buffer)
+// 		return (false);
+// 	while (buffer[i] != '\0')
+// 	{
+// 		if (buffer[i] != c)
+// 			return (false);
+// 		i++;
+// 	}
+// 	return (true);
+// }
+// static char	*ft_end_buffer(char *ret, char **save)
+// {
+// 	*save = NULL;
+// 	if (ft_is_only(ret, ' '))
+// 		return (NULL);
+// 	return (ret);
+// }
 
 char	*strtok_(char *str, char sepa)
 {
@@ -26,12 +36,15 @@ char	*strtok_(char *str, char sepa)
 	ptr = NULL;
 	if (str != NULL)
 		stock = strdup(str);
+	if (stock == (void *)0)
+			return ptr;
 	while (*stock != '\0')
 	{
 		if (i == 0 && *stock != sepa)
 		{
 			i = 1;
 			ptr = stock;
+			printf("ptr = %s\n", ptr);
 		}
 		else if (i == 1 && *stock == sepa)
 		{
@@ -44,15 +57,7 @@ char	*strtok_(char *str, char sepa)
 	return (ptr);
 }
 
-int	count_token(char **prompt)
-{
-	int	i;
 
-	i = 0;
-	while (prompt[i])
-		i++;
-	return (i);
-}
 
 void	save_shit(t_shell *shell)
 {
@@ -75,9 +80,12 @@ void	save_shit(t_shell *shell)
 	}
 }
 
+void    handling_cmd();
+
 bool	get_valid_cmd(t_shell *shell)
 {
 	save_shit(shell);
+	// handling_cmd(shell);
 	print_struct(shell);
 	return (true);
 }
