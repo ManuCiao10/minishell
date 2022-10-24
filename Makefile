@@ -7,7 +7,7 @@ READLINE = include/readline/libreadline.a
 
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g  
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 RM = rm -f
 RLFLAGS = -lreadline -lncurses 
 SRCS_FILES = minishell.c utils.c env.c parsing.c init.c

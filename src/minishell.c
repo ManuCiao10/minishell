@@ -16,7 +16,7 @@ char	*strtok_(char *str, char sepa)
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
-		stock = ft_strdup(str);
+		stock = strdup(str);
 	while (*stock != '\0')
 	{
 		if (i == 0 && *stock != sepa)
@@ -40,15 +40,19 @@ char	*strtok_(char *str, char sepa)
 void	save_shit(char **string, t_shell *shell)
 {
 	int		i;
+	char *token;
 
 	i = 0;
-	while (string[i])
+	while (string[i] != NULL)
 	{
-		shell->cmd[i].command = strdup(strtok_(string[i], ' '));
+		// shell->cmd[i].command = ft_calloc(sizeof(char), ft_strlen(string[i]) + 1);
+		// shell->cmd[i].option = ft_calloc(sizeof(char), ft_strlen(string[i]) + 1);
+		token = strtok_(string[i], ' ');
+		shell->cmd[i].command = token;
 		printf("cmd: %s\n", shell->cmd[i].command);
 		while (shell->cmd[i].command != NULL)
 		{
-			shell->cmd[i].option = strdup(strtok_(NULL, ' '));
+			shell->cmd[i].option = strtok_(NULL, ' ');
 			printf("options: %s\n", shell->cmd[i].option);
 			break ;
 		}
