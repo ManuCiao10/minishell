@@ -2,12 +2,18 @@
 
 //assign value to the struct -->malloc struct
 
+// void	print_shit(t_shell *shell)
+// {
+
+// }
+
 char	*strtok_(char *str, char sepa)
 {
-	static char	*stock = NULL;
+	static char	*stock;
 	char		*ptr;
-	int		i;
+	int			i;
 
+	stock = NULL;
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
@@ -18,7 +24,6 @@ char	*strtok_(char *str, char sepa)
 		{
 			i = 1;
 			ptr = stock;
-			// printf("ptr = %s\n", ptr);
 		}
 		else if (i == 1 && *stock == sepa)
 		{
@@ -28,26 +33,24 @@ char	*strtok_(char *str, char sepa)
 		}
 		stock++;
 	}
-	// printf("Final_ptr = %s\n", ptr);
 	return (ptr);
-
-	
 }
 
-void	save_shit(char **string)
+void	save_shit(char **string, t_shell *shell)
 {
 	int		i;
-	char	*token;
 
 	i = 0;
 	while (string[i])
 	{
-		token = strtok_(string[i], ' ');
-		printf("cmd: %s\n", token);
-		while (token != NULL)
+		shell->cmd[i].command = ft_calloc(sizeof(char *), 1);
+		shell->cmd[i].option = ft_calloc(sizeof(char *), 1);
+		shell->cmd->command = strtok_(string[i], ' ');
+		printf("cmd: %s\n", shell->cmd[i].command);
+		while (shell->cmd->command != NULL)
 		{
-			token = strtok_(NULL, ' ');
-			printf("options: %s\n", token);
+			shell->cmd->command = strtok_(NULL, ' ');
+			printf("options: %s\n", shell->cmd[i].command);
 			break ;
 		}
 		i++;
@@ -59,7 +62,7 @@ bool	get_valid_cmd(t_shell *shell)
 	char	**buff;
 
 	buff = ft_split(shell->prompt, '|');
-	save_shit(buff);
+	save_shit(buff, shell);
 	// print_shit(shell);
 	return (true);
 }
