@@ -2,6 +2,20 @@
 
 int			error_status;
 
+void 		print_struct(t_shell *shell)
+{
+	int i = 0;
+
+	while(i < shell->nb_cmd)
+	{
+		printf("cmd[%d] = %s\n", i, shell->cmd[i].command);
+		printf("option[%d] = %s\n", i, shell->cmd[i].option);
+		i++;
+	}
+
+
+
+}
 char	*strtok_(char *str, char sepa)
 {
 	static char	*stock = NULL;
@@ -52,11 +66,11 @@ void	save_shit(t_shell *shell)
 	while (i < shell->nb_cmd)
 	{
 		shell->cmd[i].command = strtok_(string[i], ' ');
-		printf("cmd: %s\n", shell->cmd[i].command);
+		// printf("cmd: %s\n", shell->cmd[i].command);
 		while (shell->cmd[i].command)
 		{
 			shell->cmd[i].option = strtok_(NULL, ' ');
-			printf("options: %s\n", shell->cmd[i].option);
+			// printf("options: %s\n", shell->cmd[i].option);
 			break ;
 		}
 		i++;
@@ -67,7 +81,7 @@ bool	get_valid_cmd(t_shell *shell)
 {
 
 	save_shit(shell);
-	// print_shit(shell);
+	print_struct(shell);
 	return (true);
 }
 
