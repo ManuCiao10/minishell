@@ -9,11 +9,10 @@
 
 char	*strtok_(char *str, char sepa)
 {
-	static char	*stock;
+	static char	*stock = NULL;
 	char		*ptr;
-	int			i;
+	int		i;
 
-	stock = NULL;
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
@@ -34,6 +33,8 @@ char	*strtok_(char *str, char sepa)
 		stock++;
 	}
 	return (ptr);
+
+
 }
 
 void	save_shit(char **string, t_shell *shell)
@@ -43,14 +44,12 @@ void	save_shit(char **string, t_shell *shell)
 	i = 0;
 	while (string[i])
 	{
-		shell->cmd[i].command = ft_calloc(sizeof(char *), 1);
-		shell->cmd[i].option = ft_calloc(sizeof(char *), 1);
-		shell->cmd->command = strtok_(string[i], ' ');
+		shell->cmd[i].command = strdup(strtok_(string[i], ' '));
 		printf("cmd: %s\n", shell->cmd[i].command);
-		while (shell->cmd->command != NULL)
+		while (shell->cmd[i].command != NULL)
 		{
-			shell->cmd->command = strtok_(NULL, ' ');
-			printf("options: %s\n", shell->cmd[i].command);
+			shell->cmd[i].option = strdup(strtok_(NULL, ' '));
+			printf("options: %s\n", shell->cmd[i].option);
 			break ;
 		}
 		i++;
