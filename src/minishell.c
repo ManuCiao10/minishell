@@ -35,15 +35,14 @@ char	*strtok_(char *str, char sepa)
 	ptr = NULL;
 	if (str != NULL)
 		stock = strdup(str);
-	if (stock == (void *)0)
-		return (ptr);
-	while (*stock != '\0')
+	// if (stock == (void *)0)
+	// 	return (ptr);
+	while (*stock && stock != (void *)0)
 	{
 		if (i == 0 && *stock != sepa)
 		{
 			i = 1;
 			ptr = stock;
-			printf("ptr = %s\n", ptr);
 		}
 		else if (i == 1 && *stock == sepa)
 		{
