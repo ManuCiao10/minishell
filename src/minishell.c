@@ -78,10 +78,13 @@ void	save_shit(t_shell *shell)
 
 void	handling_cmd(void);
 
+//trim_quotes
+//execution cmd
+
 bool	get_valid_cmd(t_shell *shell)
 {
 	save_shit(shell);
-	// handling_cmd(shell);
+	handling_cmd(shell);
 	print_struct(shell);
 	return (true);
 }
