@@ -31,13 +31,12 @@ char	*strtok_(char *str, char sepa)
 	char		*ptr;
 	int			i;
 
-	stock = NULL;
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
 		stock = strdup(str);
 	if (stock == (void *)0)
-			return ptr;
+		return (ptr);
 	while (*stock != '\0')
 	{
 		if (i == 0 && *stock != sepa)
@@ -56,8 +55,6 @@ char	*strtok_(char *str, char sepa)
 	}
 	return (ptr);
 }
-
-
 
 void	save_shit(t_shell *shell)
 {
@@ -80,7 +77,7 @@ void	save_shit(t_shell *shell)
 	}
 }
 
-void    handling_cmd();
+void	handling_cmd(void);
 
 bool	get_valid_cmd(t_shell *shell)
 {
