@@ -1,27 +1,27 @@
 #include "../include/minishell.h"
 
-int			error_status;
+int		error_status;
 
-void 		print_struct(t_shell *shell)
+void	print_struct(t_shell *shell)
 {
-	int i = 0;
+	int	i;
 
-	while(i < shell->nb_cmd)
+	i = 0;
+	while (i < shell->nb_cmd)
 	{
 		printf("cmd[%d] = %s\n", i, shell->cmd[i].command);
 		printf("option[%d] = %s\n", i, shell->cmd[i].option);
 		i++;
 	}
-
-
-
 }
+
 char	*strtok_(char *str, char sepa)
 {
-	static char	*stock = NULL;
+	static char	*stock;
 	char		*ptr;
-	int		i;
+	int			i;
 
+	stock = NULL;
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
@@ -42,35 +42,33 @@ char	*strtok_(char *str, char sepa)
 		stock++;
 	}
 	return (ptr);
-
-
 }
 
-int count_token(char **str)
+int	count_token(char **prompt)
 {
-	int i = 0;
+	int	i;
 
-	while(str[i])
+	i = 0;
+	while (prompt[i])
 		i++;
-	return i;
+	return (i);
 }
 
 void	save_shit(t_shell *shell)
 {
 	int		i;
-	char **string = ft_split(shell->prompt, '|');
+	char	**string;
 
 	i = 0;
+	string = ft_split(shell->prompt, '|');
 	shell->nb_cmd = count_token(string);
 	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
 	while (i < shell->nb_cmd)
 	{
 		shell->cmd[i].command = strtok_(string[i], ' ');
-		// printf("cmd: %s\n", shell->cmd[i].command);
 		while (shell->cmd[i].command)
 		{
 			shell->cmd[i].option = strtok_(NULL, ' ');
-			// printf("options: %s\n", shell->cmd[i].option);
 			break ;
 		}
 		i++;
@@ -79,7 +77,6 @@ void	save_shit(t_shell *shell)
 
 bool	get_valid_cmd(t_shell *shell)
 {
-
 	save_shit(shell);
 	print_struct(shell);
 	return (true);
