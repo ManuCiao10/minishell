@@ -2,29 +2,6 @@
 
 int		error_status;
 
-// bool	ft_is_only(char *buffer, char c)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (!buffer)
-// 		return (false);
-// 	while (buffer[i] != '\0')
-// 	{
-// 		if (buffer[i] != c)
-// 			return (false);
-// 		i++;
-// 	}
-// 	return (true);
-// }
-// static char	*ft_end_buffer(char *ret, char **save)
-// {
-// 	*save = NULL;
-// 	if (ft_is_only(ret, ' '))
-// 		return (NULL);
-// 	return (ret);
-// }
-
 char	*strtok_(char *str, char sepa)
 {
 	static char	*stock;
@@ -76,7 +53,48 @@ void	save_shit(t_shell *shell)
 	}
 }
 
-void	handling_cmd(void);
+void	ft_echo(char *string)
+{
+	printf("%s\n", string);
+}
+
+bool	check_bulitin(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nb_cmd)
+	{
+		if (strcmp(shell->cmd[i].command, "echo") == 0)
+		{
+			ft_echo(shell->cmd[i].option);
+			return (true);
+		}
+		// else if (strcmp(shell->cmd[i].command, "cd") == 0)
+		// 	ft_cd(shell->cmd[i].option);
+		// else if (strcmp(shell->cmd[i].command, "pwd") == 0)
+		// 	ft_pwd();
+		// else if (strcmp(shell->cmd[i].command, "export") == 0)
+		// 	ft_export(shell->cmd[i].option);
+		// else if (strcmp(shell->cmd[i].command, "unset") == 0)
+		// 	ft_unset(shell->cmd[i].option);
+		// else if (strcmp(shell->cmd[i].command, "env") == 0)
+		// 	ft_env();
+		// else if (strcmp(shell->cmd[i].command, "exit") == 0)
+		// 	ft_exit(shell->cmd[i].option);
+		i++;
+	}
+	return (false);
+}
+
+void	handling_cmd(t_shell *shell)
+{
+	if (!check_bulitin(shell))
+	{
+		printf("Execution command\n");
+		// ft_exec(shell->cmd[i].command, shell->cmd[i].option);
+	}
+}
 
 //trim_quotes
 //execution cmd
