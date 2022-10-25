@@ -99,10 +99,31 @@ void	handling_cmd(t_shell *shell)
 //trim_quotes
 //execution cmd
 
+int	invalid_quotes(char *buf)
+{
+	char	*tmp;
+
+	tmp = buf;
+	while (*tmp){
+		if (*tmp == '\'' || *tmp == '\"'){
+			if (ft_strchr(tmp + 1, *tmp) == NULL)
+			{
+				printf("Error Quote not closed\n");
+				return (1);
+			}
+			else
+				tmp = ft_strchr(tmp + 1, *tmp);
+		}
+		tmp++;
+	}
+	return (0);
+}
+
 bool	get_valid_cmd(t_shell *shell)
 {
-	//check_open_quote
 	handling_cmd(shell);
+	if(invalid_quotes(shell->prompt))
+		return (false);
 	save_shit(shell);
 	print_struct(shell);
 	return (true);

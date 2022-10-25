@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/23 22:42:40 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/25 01:01:19 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ bool				init_shell(t_shell *shell, char **argv, char **env);
 
 /* ****** PARSING ****** */
 char				*dollar_sign(t_shell *shell);
-bool				invalid_quotes(char *buf);
 
 /* ****** UTILS ****** */
 void				print_env(t_env *env);
