@@ -47,7 +47,7 @@ void	save_shit(t_shell *shell)
 		while (shell->cmd[i].command)
 		{
 			shell->cmd[i].option = strtok_(NULL, ' ');
-			break ;
+			break;
 		}
 		i++;
 	}
@@ -101,8 +101,9 @@ void	handling_cmd(t_shell *shell)
 
 bool	get_valid_cmd(t_shell *shell)
 {
-	save_shit(shell);
+	//check_open_quote
 	handling_cmd(shell);
+	save_shit(shell);
 	print_struct(shell);
 	return (true);
 }
