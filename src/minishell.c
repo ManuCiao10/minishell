@@ -96,9 +96,6 @@ void	handling_cmd(t_shell *shell)
 	}
 }
 
-//trim_quotes
-//execution cmd
-
 int	invalid_quotes(char *buf)
 {
 	char	*tmp;
@@ -121,9 +118,9 @@ int	invalid_quotes(char *buf)
 
 bool	get_valid_cmd(t_shell *shell)
 {
-	handling_cmd(shell);
 	if(invalid_quotes(shell->prompt))
 		return (false);
+	handling_cmd(shell);
 	save_shit(shell);
 	print_struct(shell);
 	return (true);
