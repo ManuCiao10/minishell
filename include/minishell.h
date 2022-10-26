@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hsaadi <hsaadi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/26 03:04:58 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/26 10:15:29 by hsaadi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 typedef struct s_cmd
 {
-	char            *memory;
+	char			*memory;
 	char			**command;
 	pid_t			pid;
 
@@ -56,6 +56,7 @@ typedef struct s_shell
 	int				nb_cmd;
 	int				done;
 	int				size;
+	char			**envp;
 	t_cmd			*cmd;
 	t_env			*env;
 
@@ -87,5 +88,11 @@ bool				init_shell(t_shell *shell, char **argv, char **envp);
 /* ****** ENVIRONEMENT ****** */
 t_env				*ft_newenv(char **content);
 bool				get_env(t_shell *shell, char **envp);
+
+/* ****** LOGS ****** */
+void				msg_exit(char *error);
+
+/* ****** EXECUTION ****** */
+void				run_parent(t_shell *shell);
 
 #endif
