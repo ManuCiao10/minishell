@@ -2,56 +2,6 @@
 
 int		error_status;
 
-char	*strtok_(char *str, char sepa)
-{
-	static char	*stock;
-	char		*ptr;
-	int			i;
-
-	i = 0;
-	ptr = NULL;
-	if (str != NULL)
-		stock = strdup(str);
-	// if (stock == (void *)0)
-	// 	return (ptr);
-	while (*stock && stock != (void *)0)
-	{
-		if (i == 0 && *stock != sepa)
-		{
-			i = 1;
-			ptr = stock;
-		}
-		else if (i == 1 && *stock == sepa)
-		{
-			*stock = '\0';
-			stock += 1;
-			break ;
-		}
-		stock++;
-	}
-	return (ptr);
-}
-
-void	save_shit(t_shell *shell)
-{
-	int		i;
-	char	**string;
-
-	i = 0;
-	string = ft_split(shell->prompt, '|');
-	shell->nb_cmd = count_token(string);
-	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
-	while (i < shell->nb_cmd)
-	{
-		shell->cmd[i].command = strtok_(string[i], ' ');
-		while (shell->cmd[i].command)
-		{
-			shell->cmd[i].option = strtok_(NULL, ' ');
-			break ;
-		}
-		i++;
-	}
-}
 int	invalid_quotes(char *buf)
 {
 	char	*tmp;
@@ -121,12 +71,64 @@ void	handling_cmd(t_shell *shell)
 	}
 }
 
+char	*strtok_(char *str, char sepa)
+{
+	static char	*stock;
+	char		*ptr;
+	int			i;
+
+	i = 0;
+	ptr = NULL;
+	if (str != NULL)
+		stock = strdup(str);
+	// if (stock == (void *)0)
+	// 	return (ptr);
+	while (*stock && stock != (void *)0)
+	{
+		if (i == 0 && *stock != sepa)
+		{
+			i = 1;
+			ptr = stock;
+		}
+		else if (i == 1 && *stock == sepa)
+		{
+			*stock = '\0';
+			stock += 1;
+			break ;
+		}
+		stock++;
+	}
+	return (ptr);
+}
+
+void	save_shit(t_shell *shell)
+{
+	int		i;
+	char	**string;
+
+	i = 0;
+	string = ft_split(shell->prompt, '|');
+	shell->nb_cmd = count_token(string);
+	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
+	while (i < shell->nb_cmd)
+	{
+		shell->cmd[i].command = strtok_(string[i], ' ');
+		while (shell->cmd[i].command)
+		{
+			shell->cmd[i].option = strtok_(NULL, ' ');
+			break ;
+		}
+		i++;
+	}
+}
+
+
 bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
-	handling_cmd(shell);
 	save_shit(shell);
+	handling_cmd(shell);
 	print_struct(shell);
 	return (true);
 }
