@@ -10,7 +10,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 RM = rm -f
 RLFLAGS = -lreadline -lncurses 
-SRCS_FILES = minishell.c utils.c env.c parsing.c init.c
+SRCS_FILES = minishell.c utils.c env.c parsing.c init.c execution.c logs.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_FILES))
 OBJS = $(SRCS:.c=.o)
 

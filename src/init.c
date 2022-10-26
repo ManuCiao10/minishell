@@ -8,6 +8,7 @@ bool	init_shell(t_shell *shell, char **argv, char **envp)
 	shell->done = 0;
 	if (!get_env(shell, envp))
 		return (false);
+	shell->envp = envp;
 	shell->prompt = NULL;
 	shell->nb_cmd = 0;
 	shell->size = 0;

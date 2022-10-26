@@ -11,7 +11,7 @@ char	*strtok_(char *str, char sepa)
 	i = 0;
 	ptr = NULL;
 	if (str != NULL)
-		stock = strdup(str);
+		stock = ft_strdup(str);
 	// if (stock == (void *)0)
 	// 	return (ptr);
 	while (*stock && stock != (void *)0)
@@ -35,18 +35,26 @@ char	*strtok_(char *str, char sepa)
 void	save_shit(t_shell *shell)
 {
 	int		i;
+	int		j;
 	char	**string;
 
 	i = 0;
+	j = 0;
 	string = ft_split(shell->prompt, '|');
 	shell->nb_cmd = count_token(string);
 	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
+	while (j < shell->nb_cmd)
+	{
+		shell->cmd[i].command = ft_split(string[j], ' ');
+		printf("shell->cmd[i].command[0] %s\n", shell->cmd[0].command[0]);
+		j++;
+	}
 	while (i < shell->nb_cmd)
 	{
-		shell->cmd[i].command = strtok_(string[i], ' ');
+		shell->cmd[i].command[0] = strtok_(string[i], ' ');
 		while (shell->cmd[i].command)
 		{
-			shell->cmd[i].option = strtok_(NULL, ' ');
+			shell->cmd[i].command[1] = strtok_(NULL, ' ');
 			break ;
 		}
 		i++;
@@ -117,6 +125,8 @@ void	handling_cmd(t_shell *shell)
 	if (!check_bulitin(shell))
 	{
 		printf("Execution command\n");
+		run_parent(shell);
+
 		// ft_exec(shell->cmd[i].command, shell->cmd[i].option);
 	}
 }
@@ -125,9 +135,9 @@ bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
-	handling_cmd(shell);
 	save_shit(shell);
-	print_struct(shell);
+	handling_cmd(shell);
+	// print_struct(shell);
 	return (true);
 }
 
