@@ -47,62 +47,20 @@ void	save_shit(t_shell *shell)
 		while (shell->cmd[i].command)
 		{
 			shell->cmd[i].option = strtok_(NULL, ' ');
-			break;
+			break ;
 		}
 		i++;
 	}
 }
-
-void	ft_echo(char *string)
-{
-	printf("%s\n", string);
-}
-
-bool	check_bulitin(t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		if (strcmp(shell->cmd[i].command, "echo") == 0)
-		{
-			ft_echo(shell->cmd[i].option);
-			return (true);
-		}
-		// else if (strcmp(shell->cmd[i].command, "cd") == 0)
-		// 	ft_cd(shell->cmd[i].option);
-		// else if (strcmp(shell->cmd[i].command, "pwd") == 0)
-		// 	ft_pwd();
-		// else if (strcmp(shell->cmd[i].command, "export") == 0)
-		// 	ft_export(shell->cmd[i].option);
-		// else if (strcmp(shell->cmd[i].command, "unset") == 0)
-		// 	ft_unset(shell->cmd[i].option);
-		// else if (strcmp(shell->cmd[i].command, "env") == 0)
-		// 	ft_env();
-		// else if (strcmp(shell->cmd[i].command, "exit") == 0)
-		// 	ft_exit(shell->cmd[i].option);
-		i++;
-	}
-	return (false);
-}
-
-void	handling_cmd(t_shell *shell)
-{
-	if (!check_bulitin(shell))
-	{
-		printf("Execution command\n");
-		// ft_exec(shell->cmd[i].command, shell->cmd[i].option);
-	}
-}
-
 int	invalid_quotes(char *buf)
 {
 	char	*tmp;
 
 	tmp = buf;
-	while (*tmp){
-		if (*tmp == '\'' || *tmp == '\"'){
+	while (*tmp)
+	{
+		if (*tmp == '\'' || *tmp == '\"')
+		{
 			if (ft_strchr(tmp + 1, *tmp) == NULL)
 			{
 				printf("Error Quote not closed\n");
@@ -116,9 +74,56 @@ int	invalid_quotes(char *buf)
 	return (0);
 }
 
+//https://linuxhint.com/bash_echo/
+void	ft_echo(char *string)
+{
+	
+	//maybe split some command for pipe etc...
+	//handle dollar sign
+	//handle \ and quotes
+	//handle options -n
+	printf("string from echo: -->[%s]\n", string);
+}
+
+bool	check_bulitin(t_shell *shell)
+{
+	int	i;
+	char *string = shell->prompt;
+
+	i = 0;
+	if (strncmp(string, "echo ", 5) == 0)
+	{
+		ft_echo(string + 5);//delete the initial echo\0
+		return (true);
+	}
+	// else if (strcmp(shell->cmd[i].command, "cd") == 0)
+	// 	ft_cd(shell->cmd[i].option);
+	// else if (strcmp(shell->cmd[i].command, "pwd") == 0)
+	// 	ft_pwd();
+	// else if (strcmp(shell->cmd[i].command, "export") == 0)
+	// 	ft_export(shell->cmd[i].option);
+	// else if (strcmp(shell->cmd[i].command, "unset") == 0)
+	// 	ft_unset(shell->cmd[i].option);
+	// else if (strcmp(shell->cmd[i].command, "env") == 0)
+	// 	ft_env();
+	// else if (strcmp(shell->cmd[i].command, "exit") == 0)
+	// 	ft_exit(shell->cmd[i].option);
+
+	return (false);
+}
+
+void	handling_cmd(t_shell *shell)
+{
+	if (!check_bulitin(shell))
+	{
+		printf("Execution command\n");
+		// ft_exec(shell->cmd[i].command, shell->cmd[i].option);
+	}
+}
+
 bool	get_valid_cmd(t_shell *shell)
 {
-	if(invalid_quotes(shell->prompt))
+	if (invalid_quotes(shell->prompt))
 		return (false);
 	handling_cmd(shell);
 	save_shit(shell);
