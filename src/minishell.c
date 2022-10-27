@@ -97,33 +97,61 @@ void	handling_cmd(t_shell *shell)
 	}
 }
 
-char	*strtok_(char *str, char sepa)
-{
-	static char	*stock;
-	char		*save = NULL;
+// char	*strtok_(char *str, char sepa)
+// {
+// 	static char	*stock;
+// 	char		*save = NULL;
 
-	if (str != NULL)
-		stock = strdup(str); //copy the string
-	save = stock;
-	while(*stock != sepa)
+// 	if (str != NULL)
+// 		stock = strdup(str); //copy the string
+// 	save = stock;
+// 	while(*stock != sepa)
+// 	{
+// 		if (*stock == '\0')  //end of the string
+// 			return (NULL);
+// 		else if(*stock == SQUOTE || *stock == DBQUOTE)
+// 		{
+// 			printf("quote found\n");
+// 			save = strchr(stock + 1, *stock);
+// 			printf("save: %s\n", save);
+// 			if (save == NULL)
+// 				return (NULL);
+// 		}
+// 		stock++;
+// 	}
+// 	*stock = '\0';
+// 	stock++;
+// 	return (save);
+// }
+
+//strtok used to divide the string into tokens (separated by spaces)
+char *strtok_(char *string, char del)
+{
+	static char *stock = NULL;
+	char *save = NULL;
+	int log = 0;
+
+	if (string != NULL)
+		stock = ft_strdup(string);
+	
+	while(*stock != '\0')
 	{
-		if (*stock == '\0')  //end of the string
-			return (NULL);
-		else if(*stock == SQUOTE || *stock == DBQUOTE)
+		if(log == 0 && *stock != del)
 		{
-			printf("quote found\n");
-			save = strchr(stock + 1, *stock);
+			save = stock;
 			printf("save: %s\n", save);
-			if (save == NULL)
-				return (NULL);
+			log = 1;
+		}
+		else if (log == 1 && *stock == del)
+		{
+			*stock = '\0';
+			stock++;
+			return (save);
 		}
 		stock++;
 	}
-	*stock = '\0';
-	stock++;
 	return (save);
 }
-
 
 int	count_token(char *prompt, char del)
 {
@@ -149,21 +177,33 @@ void	save_shit(t_shell *shell)
 	shell->nb_cmd = count_token(shell->prompt, '|');
 	printf("nb_cmd: %d\n", shell->nb_cmd);
 	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
-	
-	// shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
 
-	// shell->cmd[0].command = strtok_(shell->prompt, '|');
-	// while(i < shell->nb_cmd)
-	// {
-	// 	shell->cmd[i].command = strtok_(NULL, '|');
-	// 	i++;
-	// }
+	shell->cmd[0].command = strtok_(shell->prompt, '|');
+	printf("command: %s\n", shell->cmd[0].command);
+	while(i < shell->nb_cmd)
+	{
+		shell->cmd[i].command = strtok_(NULL, '|');
+		i++;
+	}
 	
 }
 
+/*
 
-//count number command
-//count numebr of token for each command
+---"ls -e" | cat | wc----
+
+cmd[0]->command[0] = "ls -e"
+cmd[1]->command[0] = "cat"
+cmd[2]->command[0] = "wc"
+
+---ls -e | cat | wc----
+
+cmd[0]->command[0] = "ls"
+cmd[0]->command[1] = "-e"
+cmd[1]->command[0] = "cat"
+cmd[2]->command[0] = "wc"
+
+*/
 
 bool	get_valid_cmd(t_shell *shell)
 {
