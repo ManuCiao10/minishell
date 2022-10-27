@@ -3,6 +3,29 @@
 int		error_status;
 
 
+// int		quotes(char *line, int index)
+// {
+// 	int	i;
+// 	int	open;
+
+// 	i = 0;
+// 	open = 0;
+// 	while (line[i] && i != index)
+// 	{
+// 		if (i > 0 && line[i - 1] == '\\')
+// 			;
+// 		else if (open == 0 && line[i] == '\"')
+// 			open = 1;
+// 		else if (open == 0 && line[i] == '\'')
+// 			open = 2;
+// 		else if (open == 1 && line[i] == '\"')
+// 			open = 0;
+// 		else if (open == 2 && line[i] == '\'')
+// 			open = 0;
+// 		i++;
+// 	}
+// 	return (open);
+// }
 
 int	invalid_quotes(char *buf)
 {
@@ -101,7 +124,6 @@ char	*strtok_(char *str, char sepa)
 	return (save);
 }
 
-// "ls -e -a" | cat | -e
 
 int	count_token(char *prompt, char del)
 {
