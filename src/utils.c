@@ -17,25 +17,5 @@ int	even_(int n)
 	return (0);
 }
 
-int	count_token(char **prompt)
-{
-	int	i;
 
-	i = 0;
-	while (prompt[i])
-		i++;
-	return (i);
-}
 
-void	print_struct(t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		printf("cmd[%d] = %s\n", i, shell->cmd[i].command);
-		printf("option[%d] = %s\n", i, shell->cmd[i].option);
-		i++;
-	}
-}

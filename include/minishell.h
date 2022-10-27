@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsaadi <hsaadi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/26 10:15:29 by hsaadi           ###   ########.fr       */
+/*   Updated: 2022/10/26 12:32:30 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char				*dollar_sign(t_shell *shell);
 void				print_env(t_env *env);
 int					strrlen(char **tab);
 void				print_struct(t_shell *shell);
-int					count_token(char **prompt);
+int					count_token(char *prompt, char del);
 int					even_(int n);
 
 /* ****** INIT ****** */
