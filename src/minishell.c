@@ -1,7 +1,6 @@
 #include "../include/minishell.h"
 
-int		error_status;
-
+int			error_status;
 
 // int		quotes(char *line, int index)
 // {
@@ -52,7 +51,6 @@ int	invalid_quotes(char *buf)
 //https://linuxhint.com/bash_echo/
 void	ft_echo(char *string)
 {
-	
 	//maybe split some command for pipe etc...
 	//handle dollar sign
 	//handle \ and quotes
@@ -62,13 +60,14 @@ void	ft_echo(char *string)
 
 bool	check_bulitin(t_shell *shell)
 {
-	int	i;
-	char *string = shell->prompt;
+	int		i;
+	char	*string;
 
+	string = shell->prompt;
 	i = 0;
 	if (strncmp(string, "echo ", 5) == 0)
 	{
-		ft_echo(string + 5);//delete the initial echo\0
+		ft_echo(string + 5); //delete the initial echo\0
 		return (true);
 	}
 	// else if (strcmp(shell->cmd[i].command, "cd") == 0)
@@ -83,7 +82,6 @@ bool	check_bulitin(t_shell *shell)
 	// 	ft_env();
 	// else if (strcmp(shell->cmd[i].command, "exit") == 0)
 	// 	ft_exit(shell->cmd[i].option);
-
 	return (false);
 }
 
@@ -97,71 +95,71 @@ void	handling_cmd(t_shell *shell)
 	}
 }
 
-// char	*strtok_(char *str, char sepa)
-// {
-// 	static char	*stock;
-// 	char		*save = NULL;
-
-// 	if (str != NULL)
-// 		stock = strdup(str); //copy the string
-// 	save = stock;
-// 	while(*stock != sepa)
-// 	{
-// 		if (*stock == '\0')  //end of the string
-// 			return (NULL);
-// 		else if(*stock == SQUOTE || *stock == DBQUOTE)
-// 		{
-// 			printf("quote found\n");
-// 			save = strchr(stock + 1, *stock);
-// 			printf("save: %s\n", save);
-// 			if (save == NULL)
-// 				return (NULL);
-// 		}
-// 		stock++;
-// 	}
-// 	*stock = '\0';
-// 	stock++;
-// 	return (save);
-// }
-
-//strtok used to divide the string into tokens (separated by spaces)
-char *strtok_(char *string, char del)
+bool	only(char *buffer, char c)
 {
-	static char *stock = NULL;
-	char *save = NULL;
-	int log = 0;
+	int i;
 
-	if (string != NULL)
-		stock = ft_strdup(string);
-	
-	while(*stock != '\0')
+	i = 0;
+	if (!buffer)
+		return (false);
+	while (buffer[i] != '\0')
 	{
-		if(log == 0 && *stock != del)
-		{
-			save = stock;
-			printf("save: %s\n", save);
-			log = 1;
-		}
-		else if (log == 1 && *stock == del)
-		{
-			*stock = '\0';
-			stock++;
-			return (save);
-		}
-		stock++;
+		if (buffer[i] != c)
+			return (false);
+		i++;
 	}
-	return (save);
+	return (true);
 }
+
+static char	*check_empty(char *tmp, char **save)
+{
+	*save = NULL;
+	if (only(tmp, ' '))
+		return (NULL);
+	return (tmp);
+}
+
+char	*strtok_(char *buffer, char sep)
+{
+	static char	*save;
+	char *ret;
+	
+	if (!save)
+		save = buffer;
+	ret = save;
+	while (save && *save == ' ')
+		save++; 
+	while (save && *save != sep)
+	{
+		if (*save == '\0')
+			return (check_empty(ret, &save));
+		else if (*save == '\'' || *save == '\"')
+		{
+			save = strchr(save + 1, *save);
+			if (!save)
+				return (ret);
+			save++;
+		}
+		else
+			save++;
+	}
+	if (save)
+		*save++ = '\0';
+	return (ret);
+}
+
+
 
 int	count_token(char *prompt, char del)
 {
-	char *string;
-	char *tmp;
-	int i = 0;
+	char	*string;
+	char	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = ft_strdup(prompt);
 	string = strtok_(tmp, del);
-	while(string)
+	while (string)
 	{
 		string = strtok_(NULL, del);
 		i++;
@@ -169,23 +167,56 @@ int	count_token(char *prompt, char del)
 	return (i);
 }
 
+void	ft_print_table(t_shell *shell)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < shell->nb_cmd)
+	{
+		j = 0;
+		while (j < shell->cmd[i].nb_token)
+		{
+			printf("cmd[%d][%d]=> [%s]\n", i, j, shell->cmd[i].token[j]);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	parse_token(t_shell *shell)
+{
+	int	t;
+	int	c;
+
+	c = - 1;
+	while (++c < shell->nb_cmd)
+	{
+		shell->cmd[c].nb_token = count_token(shell->cmd[c].command, ' ');
+		shell->cmd[c].token = ft_calloc(sizeof(char *), shell->cmd[c].nb_token
+				+ 1);
+		if (!shell->cmd[c].token)
+			exit(1);
+		t = 0;
+		shell->cmd[c].token[t] = strtok_(shell->cmd[c].command, ' ');
+		while (shell->cmd[c].token[t++])
+			shell->cmd[c].token[t] = strtok_(NULL, ' ');
+		shell->cmd[c].save = shell->cmd[c].token;
+	}
+}
+
 void	save_shit(t_shell *shell)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	shell->nb_cmd = count_token(shell->prompt, '|');
-	printf("nb_cmd: %d\n", shell->nb_cmd);
 	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
-
 	shell->cmd[0].command = strtok_(shell->prompt, '|');
-	printf("command: %s\n", shell->cmd[0].command);
-	while(i < shell->nb_cmd)
-	{
+	while (++i < shell->nb_cmd)
 		shell->cmd[i].command = strtok_(NULL, '|');
-		i++;
-	}
-	
+	parse_token(shell);
 }
 
 /*
@@ -209,9 +240,9 @@ bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
-	// handling_cmd(shell);
 	save_shit(shell);
-	// print_struct(shell);
+	ft_print_table(shell);
+	// handling_cmd(shell);
 	return (true);
 }
 

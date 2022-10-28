@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/27 16:48:49 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/27 19:07:00 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@
 
 typedef struct s_cmd
 {
-	char			*memory;
-	char			**command;
+	char			*command;
+	char			**token;
 	pid_t			pid;
+	int 			nb_token;
+	char **save;
 
 }					t_cmd;
 
