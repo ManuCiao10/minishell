@@ -234,7 +234,6 @@ void	print_link(t_link *link)
 		printf("link->token => %s\n", link->token);
 		link = link->next;
 	}
-
 }
 
 int	num_node(t_link *link)
@@ -252,31 +251,32 @@ int	num_node(t_link *link)
 	return (i);
 }
 
-t_link *new_list(char *command)
+t_link	*new_list(char *command)
 {
-	t_link *num;
+	t_link	*num;
 
 	num = malloc(sizeof(t_link));
-	if(!num)
+	if (!num)
 		return (NULL);
-	num->token = strtok_(command, ' '); 
+	num->token = strtok_(command, ' ');
 	num->next = NULL;
 	return (num);
-
 }
 
 bool	save_link(t_shell *shell)
 {
-	t_link	*link = NULL;
-	int i = 0;
+	t_link	*link;
+	int		i;
 
+	link = NULL;
+	i = 0;
 	shell->nb_cmd = count_token(shell->prompt, '|');
-	while(i < shell->nb_cmd)
+	while (i < shell->nb_cmd)
 	{
 		link = new_list(strtok_(shell->prompt, '|'));
-		if(shell->link == NULL && link)
+		if (shell->link == NULL && link)
 			shell->link = link;
-		else if(shell->link && link)
+		else if (shell->link && link)
 		{
 			link->next = shell->link;
 			shell->link = link;
@@ -285,8 +285,6 @@ bool	save_link(t_shell *shell)
 		}
 		i++;
 	}
-	
-	
 	print_link(link);
 	return (true);
 }
