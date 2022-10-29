@@ -12,7 +12,7 @@ int			error_status;
 // 	while (line[i] && i != index)
 // 	{
 // 		if (i > 0 && line[i - 1] == '\\')
-// 			;
+// 			continue;
 // 		else if (open == 0 && line[i] == '\"')
 // 			open = 1;
 // 		else if (open == 0 && line[i] == '\'')
@@ -49,51 +49,8 @@ int	invalid_quotes(char *buf)
 }
 
 //https://linuxhint.com/bash_echo/
-void	ft_echo(char *string)
-{
-	//maybe split some command for pipe etc...
-	//handle dollar sign
-	//handle \ and quotes
-	//handle options -n
-	printf("string from echo: -->[%s]\n", string);
-}
 
-bool	check_bulitin(t_shell *shell)
-{
-	int		i;
-	char	*string;
 
-	string = shell->prompt;
-	i = 0;
-	if (strncmp(string, "echo ", 5) == 0)
-	{
-		ft_echo(string + 5); //delete the initial echo\0
-		return (true);
-	}
-	// else if (strcmp(shell->cmd[i].command, "cd") == 0)
-	// 	ft_cd(shell->cmd[i].option);
-	// else if (strcmp(shell->cmd[i].command, "pwd") == 0)
-	// 	ft_pwd();
-	// else if (strcmp(shell->cmd[i].command, "export") == 0)
-	// 	ft_export(shell->cmd[i].option);
-	// else if (strcmp(shell->cmd[i].command, "unset") == 0)
-	// 	ft_unset(shell->cmd[i].option);
-	// else if (strcmp(shell->cmd[i].command, "env") == 0)
-	// 	ft_env();
-	// else if (strcmp(shell->cmd[i].command, "exit") == 0)
-	// 	ft_exit(shell->cmd[i].option);
-	return (false);
-}
-
-void	handling_cmd(t_shell *shell)
-{
-	if (!check_bulitin(shell))
-	{
-		printf("Execution command\n");
-		// run_parent(shell);
-		// ft_exec(shell->cmd[i].command, shell->cmd[i].option);
-	}
-}
 
 bool	only(char *buffer, char c)
 {
@@ -147,7 +104,6 @@ char	*strtok_(char *buffer, char sep)
 		*save++ = '\0';
 	return (ret);
 }
-
 
 
 int	count_token(char *prompt, char del)
@@ -236,13 +192,14 @@ cmd[2]->command[0] = "wc"
 
 */
 
+
 bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
 	save_shit(shell);
 	ft_print_table(shell);
-	// handling_cmd(shell);
+	// execution(shell);
 	return (true);
 }
 
