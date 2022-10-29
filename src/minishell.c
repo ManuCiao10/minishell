@@ -12,7 +12,7 @@ int			error_status;
 // 	while (line[i] && i != index)
 // 	{
 // 		if (i > 0 && line[i - 1] == '\\')
-// 			continue;
+// 			continue ;
 // 		else if (open == 0 && line[i] == '\"')
 // 			open = 1;
 // 		else if (open == 0 && line[i] == '\'')
@@ -50,11 +50,9 @@ int	invalid_quotes(char *buf)
 
 //https://linuxhint.com/bash_echo/
 
-
-
 bool	only(char *buffer, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!buffer)
@@ -79,13 +77,13 @@ static char	*check_empty(char *tmp, char **save)
 char	*strtok_(char *buffer, char sep)
 {
 	static char	*save;
-	char *ret;
-	
+	char		*ret;
+
 	if (!save)
 		save = buffer;
 	ret = save;
 	while (save && *save == ' ')
-		save++; 
+		save++;
 	while (save && *save != sep)
 	{
 		if (*save == '\0')
@@ -93,6 +91,7 @@ char	*strtok_(char *buffer, char sep)
 		else if (*save == '\'' || *save == '\"')
 		{
 			save = strchr(save + 1, *save);
+			printf("save = %s\n", save);
 			if (!save)
 				return (ret);
 			save++;
@@ -105,6 +104,42 @@ char	*strtok_(char *buffer, char sep)
 	return (ret);
 }
 
+// char	*strtok_(char *buffer, char sep)
+// {
+// 	char		*ret;
+
+// 	ret = buffer;
+// 	while (buffer && *buffer == ' ')
+// 		buffer++;
+// 	while (buffer && *buffer != sep)
+// 	{
+// 		if (*buffer == '\0')
+// 			return (check_empty(ret, &buffer));
+// 		else if (*buffer == '\'' || *buffer == '\"')
+// 		{
+// 			buffer = ft_strchr(buffer + 1, *buffer);
+// 			if (!buffer)
+// 				return (ret);
+// 			buffer++;
+// 		}
+// 		else
+// 			buffer++;
+// 	}
+// 	if (buffer)
+// 		*buffer++ = '\0';
+// 	return (ret);
+// }
+
+// bool	execution(t_shell *shell)
+// {
+// 	//check buildint
+// 	char *string = shell->cmd[0].token[0];
+// 	if (strncmp(string, "echo", 4) == 0)
+// 	{
+// 		// echo_();
+// 	}
+// 	return (false);
+// }
 
 int	count_token(char *prompt, char del)
 {
@@ -123,57 +158,57 @@ int	count_token(char *prompt, char del)
 	return (i);
 }
 
-void	ft_print_table(t_shell *shell)
-{
-	int	i;
-	int	j;
+// void	ft_print_table(t_shell *shell)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		j = 0;
-		while (j < shell->cmd[i].nb_token)
-		{
-			printf("cmd[%d][%d]=> [%s]\n", i, j, shell->cmd[i].token[j]);
-			j++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < shell->nb_cmd)
+// 	{
+// 		j = 0;
+// 		while (j < shell->cmd[i].nb_token)
+// 		{
+// 			printf("cmd[%d][%d]=> [%s]\n", i, j, shell->cmd[i].token[j]);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
-void	parse_token(t_shell *shell)
-{
-	int	t;
-	int	c;
+// void	parse_token(t_shell *shell)
+// {
+// 	int	t;
+// 	int	c;
 
-	c = - 1;
-	while (++c < shell->nb_cmd)
-	{
-		shell->cmd[c].nb_token = count_token(shell->cmd[c].command, ' ');
-		shell->cmd[c].token = ft_calloc(sizeof(char *), shell->cmd[c].nb_token
-				+ 1);
-		if (!shell->cmd[c].token)
-			exit(1);
-		t = 0;
-		shell->cmd[c].token[t] = strtok_(shell->cmd[c].command, ' ');
-		while (shell->cmd[c].token[t++])
-			shell->cmd[c].token[t] = strtok_(NULL, ' ');
-		shell->cmd[c].save = shell->cmd[c].token;
-	}
-}
+// 	c = -1;
+// 	while (++c < shell->nb_cmd)
+// 	{
+// 		shell->cmd[c].nb_token = count_token(shell->cmd[c].command, ' ');
+// 		shell->cmd[c].token = ft_calloc(sizeof(char *), shell->cmd[c].nb_token
+// 				+ 1);
+// 		if (!shell->cmd[c].token)
+// 			exit(1);
+// 		t = 0;
+// 		shell->cmd[c].token[t] = strtok_(shell->cmd[c].command, ' ');
+// 		while (shell->cmd[c].token[t++])
+// 			shell->cmd[c].token[t] = strtok_(NULL, ' ');
+// 		shell->cmd[c].save = shell->cmd[c].token;
+// 	}
+// }
 
-void	save_shit(t_shell *shell)
-{
-	int	i;
+// void	save_shit(t_shell *shell)
+// {
+// 	int	i;
 
-	i = 0;
-	shell->nb_cmd = count_token(shell->prompt, '|');
-	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
-	shell->cmd[0].command = strtok_(shell->prompt, '|');
-	while (++i < shell->nb_cmd)
-		shell->cmd[i].command = strtok_(NULL, '|');
-	parse_token(shell);
-}
+// 	i = 0;
+// 	shell->nb_cmd = count_token(shell->prompt, '|');
+// 	shell->cmd = malloc(sizeof(t_cmd) * shell->nb_cmd);
+// 	shell->cmd[0].command = strtok_(shell->prompt, '|');
+// 	while (++i < shell->nb_cmd)
+// 		shell->cmd[i].command = strtok_(NULL, '|');
+// 	parse_token(shell);
+// }
 
 /*
 
@@ -192,13 +227,77 @@ cmd[2]->command[0] = "wc"
 
 */
 
+void	print_link(t_link *link)
+{
+	while (link)
+	{
+		printf("link->token => %s\n", link->token);
+		link = link->next;
+	}
+
+}
+
+int	num_node(t_link *link)
+{
+	t_link	*token;
+	int		i;
+
+	token = link;
+	i = 0;
+	while (token)
+	{
+		i++;
+		token = token->next;
+	}
+	return (i);
+}
+
+t_link *new_list(char *command)
+{
+	t_link *num;
+
+	num = malloc(sizeof(t_link));
+	if(!num)
+		return (NULL);
+	num->token = strtok_(command, ' '); 
+	num->next = NULL;
+	return (num);
+
+}
+
+bool	save_link(t_shell *shell)
+{
+	t_link	*link = NULL;
+	int i = 0;
+
+	shell->nb_cmd = count_token(shell->prompt, '|');
+	while(i < shell->nb_cmd)
+	{
+		link = new_list(strtok_(shell->prompt, '|'));
+		if(shell->link == NULL && link)
+			shell->link = link;
+		else if(shell->link && link)
+		{
+			link->next = shell->link;
+			shell->link = link;
+			shell->link->num_node++;
+			// shell->link->next = NULL;
+		}
+		i++;
+	}
+	
+	
+	print_link(link);
+	return (true);
+}
 
 bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
-	save_shit(shell);
-	ft_print_table(shell);
+	save_link(shell);
+	// save_shit(shell);
+	// ft_print_table(shell);
 	// execution(shell);
 	return (true);
 }

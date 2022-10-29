@@ -13,7 +13,7 @@ t_env	*ft_newenv(char **content)
 	return (n_element);
 }
 
-bool	get_env(t_shell *data, char **envp)
+bool	get_env(t_shell *shell, char **envp)
 {
 	int		i;
 	t_env	*new;
@@ -22,16 +22,16 @@ bool	get_env(t_shell *data, char **envp)
 	while (envp[i])
 	{
 		new = ft_newenv(ft_split(envp[i], '='));
-		if (data->env == NULL && new)
+		if (shell->env == NULL && new)
 		{
-			data->env = new;
-			data->size++;
+			shell->env = new;
+			shell->size++;
 		}
-		else if (data->env && new)
+		else if (shell->env && new)
 		{
-			new->next = data->env;
-			data->env = new;
-			data->size++;
+			new->next = shell->env;
+			shell->env = new;
+			shell->size++;
 		}
 		i++;
 	}

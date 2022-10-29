@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/27 19:07:00 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/29 01:02:11 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,24 @@
 
 /* ****** STRUCTS ****** */
 
-typedef struct s_cmd
-{
-	char			*command;
-	char			**token;
-	pid_t			pid;
-	int 			nb_token;
-	char **save;
+// typedef struct s_cmd
+// {
+// 	char			*command;
+// 	char			**token;
+// 	pid_t			pid;
+// 	int 			nb_token;
+// 	char **save;
 
-}					t_cmd;
+// }					t_cmd;
+
+typedef struct s_link
+{
+	// char			*buffer;
+	char			*token;
+	char			*final;
+	int				num_node;
+	struct s_link	*next;
+}					t_link;
 
 typedef struct s_env
 {
@@ -59,7 +68,8 @@ typedef struct s_shell
 	int				done;
 	int				size;
 	char			**envp;
-	t_cmd			*cmd;
+	// t_cmd			*cmd;
+	t_link			*link;
 	t_env			*env;
 
 }					t_shell;
