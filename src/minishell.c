@@ -91,7 +91,6 @@ char	*strtok_(char *buffer, char sep)
 		else if (*save == '\'' || *save == '\"')
 		{
 			save = strchr(save + 1, *save);
-			printf("save = %s\n", save);
 			if (!save)
 				return (ret);
 			save++;
@@ -231,10 +230,9 @@ void	print_link(t_link *link)
 {
 	while (link)
 	{
-		printf("link->token => %s\n", link->token);
+		printf("link->token => [%s]\n", link->token);
 		link = link->next;
 	}
-
 }
 
 int	num_node(t_link *link)
@@ -252,42 +250,54 @@ int	num_node(t_link *link)
 	return (i);
 }
 
-t_link *new_list(char *command)
+t_link	*new_list(char *command)
 {
-	t_link *num;
+	t_link	*cmd;
+	// int number_token = count_token(command, ' ');
+	// int i = 0;
 
-	num = malloc(sizeof(t_link));
-	if(!num)
+	cmd = malloc(sizeof(t_link));
+	if (!cmd)
 		return (NULL);
-	num->token = command; 
-	num->next = NULL;
-	return (num);
+	cmd->token = command;
+	// while(i < number_token)
+	// {
+	// 	cmd = new_list(strtok_(command, ' '));
+	// 	if(cmd->token == NULL && cmd)
+	// 		cmd->token = cmd;
+	// 	else if (cmd->token && cmd)
+	// 	{
+	// 		cmd->next = cmd->token;
+	// 		cmd->token = cmd;
+	// 	}
+	// 	i++;
+	// }
 
+	cmd->next = NULL;
+	return (cmd);
 }
-
 
 bool	save_link(t_shell *shell)
 {
-	t_link	*link = NULL;
-	int i = 0;
+	t_link	*link;
+	int		i;
 
+	link = NULL;
+	i = 0;
 	shell->nb_cmd = count_token(shell->prompt, '|');
-	while(i < shell->nb_cmd)
+	while (i < shell->nb_cmd)
 	{
 		link = new_list(strtok_(shell->prompt, '|'));
-		if(shell->link == NULL && link)
+		if (shell->link == NULL && link)
 			shell->link = link;
-		else if(shell->link && link)
+		else if (shell->link && link)
 		{
 			link->next = shell->link;
 			shell->link = link;
-			shell->link->num_node++;
-			// shell->link->next = NULL;
+			// shell->link->num_node++;
 		}
 		i++;
 	}
-	
-	
 	print_link(link);
 	return (true);
 }
@@ -331,3 +341,6 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	return (0);
 }
+
+//add trim space
+//try to divide by space 

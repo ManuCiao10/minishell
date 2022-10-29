@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/29 01:02:11 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/29 02:44:25 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@
 
 typedef struct s_link
 {
-	// char			*buffer;
 	char			*token;
-	char			*final;
-	int				num_node;
 	struct s_link	*next;
 }					t_link;
 
@@ -64,11 +61,11 @@ typedef struct s_shell
 {
 	char			*prompt;
 	char			**argv;
-	int				nb_cmd;
 	int				done;
 	int				size;
+	int				nb_cmd;
 	char			**envp;
-	// t_cmd			*cmd;
+	
 	t_link			*link;
 	t_env			*env;
 
