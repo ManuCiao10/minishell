@@ -154,13 +154,19 @@ bool	save_link(t_shell *shell)
 	return (true);
 }
 
+bool save_token(t_shell *shell)
+{
+
+	return (true);
+}
 
 
 bool	get_valid_cmd(t_shell *shell)
 {
 	if (invalid_quotes(shell->prompt))
 		return (false);
-	save_link(shell);
+	// save_link(shell);
+	save_token(shell);
 	// save_shit(shell);
 	// ft_print_table(shell);
 	// execution(shell);

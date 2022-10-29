@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/29 18:43:17 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/29 19:34:39 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ bool				init_shell(t_shell *shell, char **argv, char **env);
 /* ****** PARSING ****** */
 char				*dollar_sign(t_shell *shell);
 
+char *get_bet_quotes(char *line, int *i);
+
 /* ****** UTILS ****** */
 void				print_env(t_env *env);
 int					strrlen(char **tab);
@@ -99,5 +101,7 @@ void				msg_exit(char *error);
 
 /* ****** EXECUTION ****** */
 void				run_parent(t_shell *shell);
+
+
 
 #endif

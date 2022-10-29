@@ -70,7 +70,7 @@ char	*strtok_(char *buffer, char sep)
 	ret = save;
 	while (save && *save == ' ')
 		save++;
-	while (save && *save != sep)
+	while ((save && *save != PIPE) || (save && *save != DOUBLEPIPE))
 	{
 		if (*save == '\0')
 			return (check_empty(ret, &save));
