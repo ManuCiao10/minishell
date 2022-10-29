@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bylkode <bylkode@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 17:10:04 by eardingh          #+#    #+#             */
-/*   Updated: 2022/08/27 06:32:15 by bylkode          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:37:46 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int					ft_intlen(int *arr);
 typedef struct s_list
 {
 	void			*content;
+	
 	struct s_list	*next;
 }					t_list;
 

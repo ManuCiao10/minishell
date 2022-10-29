@@ -6,9 +6,10 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/29 16:49:09 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/29 18:43:17 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -30,22 +31,17 @@
 # define PIPE 124
 # define SPACE 32
 # define DOLLAR 36
+# define DOUBLEPIPE 123
+# define DOUBLEAMPERSAND 125
 
 /* ****** STRUCTS ****** */
-
-// typedef struct s_cmd
-// {
-// 	char			*command;
-// 	char			**token;
-// 	pid_t			pid;
-// 	int 			nb_token;
-// 	char **save;
-
-// }					t_cmd;
 
 typedef struct s_link
 {
 	char			*token;
+	char 			*path;
+	int				meta;
+	int 			ctrl;
 	struct s_link	*next;
 }					t_link;
 

@@ -5,7 +5,8 @@ LIBFT_PATH = include/libft/
 READLINE = include/readline/libreadline.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g 
+# -fsanitize=address
 RM = rm -f
 RLFLAGS = -lreadline -lncurses 
 
@@ -14,14 +15,14 @@ ENV = env
 EXECUTE = execution
 MAIN = minishell init
 PARSING = parsing
-UTILS = utils logs
+# UTILS = utils logs
 
 SRCS = $(addsuffix .c, $(addprefix src/builtins/, $(BUILTINS))) \
 	  $(addsuffix .c, $(addprefix src/env/, $(ENV))) \
 	  $(addsuffix .c, $(addprefix src/execute/, $(EXECUTE))) \
 	  $(addsuffix .c, $(addprefix src/main/, $(MAIN))) \
 	  $(addsuffix .c, $(addprefix src/parsing/, $(PARSING))) \
-	  $(addsuffix .c, $(addprefix src/utils/, $(UTILS))) \
+	#   $(addsuffix .c, $(addprefix src/utils/, $(UTILS))) \
 
 OBJS = $(SRCS:c=o)
 
@@ -51,7 +52,11 @@ git:
 	@git push
 	@echo "\n$(PURPLE)$(NAME) Committed!$(DEFAULT)💯"
 
-
+#COLORS
+RED = \033[1;31m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+DEFAULT = \033[0m
 PURPLE = \033[1;35m
 
 

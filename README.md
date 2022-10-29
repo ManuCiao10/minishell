@@ -1,5 +1,6 @@
-# `Minishell`
-### As beautiful as a shell
+# minishell
+
+42 project, recoding our own little bash. A program capable of parsing a prompt and launching executables with arguments, along with a few built-in functions.
 
 This project is about creating a simple shell. Yes, your own little bash. 
 You will learn a lot about processes and file descriptors. <br> `Version: 6` <br>
@@ -70,6 +71,13 @@ If you have any doubt about a requirement, take __bash__ as a reference.
 
 Your program has to implement:
 * && and || with parenthesis for priorities.
+```
+Just like &&, || is a bash control operator:
+
+    && means execute the statement which follows only if the preceding statement executed successfully (returned exit code zero).
+
+    || means execute the statement which follows only if the preceding statement failed (returned a non-zero exit code).
+```
 * Wildcards * should work for the current working directory.
 
 ```
