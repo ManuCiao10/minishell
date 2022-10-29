@@ -6,7 +6,7 @@
 /*   By: eardingh <eardingh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 06:13:01 by hsaadi            #+#    #+#             */
-/*   Updated: 2022/10/29 02:44:25 by eardingh         ###   ########.fr       */
+/*   Updated: 2022/10/29 16:49:09 by eardingh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* ****** INCLUDES ****** */
 
-# include "libft/libft.h"
+# include "libft/includes/libft.h"
 # include <ctype.h>
 # include <fcntl.h>
 # include <readline/readline.h>

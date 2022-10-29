@@ -2,17 +2,28 @@ NAME = minishell
 
 LIBFT = include/libft/libft.a
 LIBFT_PATH = include/libft/
-SRCS_PATH = src/
 READLINE = include/readline/libreadline.a
 
-
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g 
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 RM = rm -f
 RLFLAGS = -lreadline -lncurses 
-SRCS_FILES = minishell.c utils.c env.c parsing.c init.c execution.c logs.c
-SRCS = $(addprefix $(SRCS_PATH), $(SRCS_FILES))
-OBJS = $(SRCS:.c=.o)
+
+BUILTINS = echo 
+ENV = env 
+EXECUTE = execution
+MAIN = minishell init
+PARSING = parsing
+UTILS = utils logs
+
+SRCS = $(addsuffix .c, $(addprefix src/builtins/, $(BUILTINS))) \
+	  $(addsuffix .c, $(addprefix src/env/, $(ENV))) \
+	  $(addsuffix .c, $(addprefix src/execute/, $(EXECUTE))) \
+	  $(addsuffix .c, $(addprefix src/main/, $(MAIN))) \
+	  $(addsuffix .c, $(addprefix src/parsing/, $(PARSING))) \
+	  $(addsuffix .c, $(addprefix src/utils/, $(UTILS))) \
+
+OBJS = $(SRCS:c=o)
 
 all: 	$(NAME)
 	@echo "BOOM 💥💥💥💥💥 $(NAME) Compiled! 💯 $(DEFAULT)"
