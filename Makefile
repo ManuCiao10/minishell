@@ -49,6 +49,7 @@ re:		fclean all
 git:
 	@git add .
 	@git commit -m "$(COMMIT)"
+	@git push
 	@echo "\n$(GREEN)$(NAME) Committed!$(DEFAULT)💯"
 
 #COLORS
