@@ -47,7 +47,7 @@ re:		fclean all
 .PHONY:	all clean libft fclean re
 git:
 	@git add .
-	@read -p "tag? : " TAG && git commit -m "$$TAG"
+	@read -p "Insert commit name: " TAG && git commit -m "$$TAG"
 	@git push
 	@echo "\n$(PURPLE)$(NAME) Committed!$(DEFAULT)💯"
 
