@@ -45,16 +45,18 @@ fclean:	clean
 re:		fclean all
 
 .PHONY:	all clean libft fclean re
-
 git:
 	@git add .
-	@git commit -m "$(COMMIT)"
+	@read -p "tag? : " TAG && git commit -m "$$TAG"
 	@git push
-	@echo "\n$(GREEN)$(NAME) Committed!$(DEFAULT)💯"
+	@echo "\n$(PURPLE)$(NAME) Committed!$(DEFAULT)💯"
 
 #COLORS
 RED = \033[1;31m
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
 DEFAULT = \033[0m
-COMMIT = $(shell date "+%d %B %T")
+PURPLE = \033[1;35m
+
+
+
